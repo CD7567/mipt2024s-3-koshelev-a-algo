@@ -2,3 +2,5 @@ Language: Cpp
 
 BasedOnStyle: Google
 IndentWidth: 4
+AccessModifierOffset: -2
+TabWidth: 4
