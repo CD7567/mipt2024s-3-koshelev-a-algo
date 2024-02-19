@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(mipt2024-s-koshelev-a-algo)
-
 ###############################################################################
 ## project definition #########################################################
 ###############################################################################
 
-project(mipt2024s-3-koshelev-a)
+project(mipt2024-s-koshelev-a-algo)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -20,12 +18,16 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_CXX_CLANG_TIDY "clang-tidy")
     set(CMAKE_CXX_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
 
-    enable_testing()
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
+    set(DO_COMPILE_TESTS ON)
+    set(DO_AUTORUN_TESTS ON)
 endif()
 
 ###############################################################################
 ## dependencies ###############################################################
 ###############################################################################
 
-add_subdirectory(task_1)
+if(DO_COMPILE_TESTS)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
+endif()
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/task_1)
