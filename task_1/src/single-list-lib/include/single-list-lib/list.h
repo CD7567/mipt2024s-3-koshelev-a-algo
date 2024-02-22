@@ -28,11 +28,11 @@ template <class T> class CSingleLinkedList
         {
         }
 
-        CIterator(leaf *p)
+        CIterator(leaf *p) : m_pCurrent(p), m_pBegin(nullptr)
         {
         }
 
-        CIterator(const CIterator &src)
+        CIterator(const CIterator &src) : m_pBegin(src.m_pBegin), m_pCurrent(src.m_pCurrent)
         {
         }
 
@@ -42,44 +42,51 @@ template <class T> class CSingleLinkedList
 
         CIterator &operator=(const CIterator &src)
         {
+            m_pBegin = src.m_pBegin;
+            m_pCurrent = src.m_pCurrent;
+
+            return *this;
         }
 
         bool operator!=(const CIterator &it) const
         {
-            return true;
+            return m_pBegin != it.m_pBegin || m_pCurrent != it.m_pCurrent;
         }
 
         void operator++()
         {
+            m_pCurrent = m_pCurrent->pNext;
         }
 
         T &getData()
         {
-            return T();
+            return m_pCurrent->data;
         }
 
         T &operator*()
         {
-            T tmp;
+            T tmp = *m_pCurrent;
             return tmp;
         }
 
         leaf *getLeaf()
         {
-            return 0;
+            return m_pCurrent;
         }
 
         void setLeaf(leaf *p)
         {
+            m_pCurrent = p;
         }
 
         void setLeafPreBegin(leaf *p)
         {
+            m_pBegin = p;
         }
 
         bool isValid()
         {
-            return false;
+            return m_pBegin != nullptr || m_pCurrent != nullptr;;
         }
 
       private:
