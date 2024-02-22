@@ -1,7 +1,7 @@
 #include "doctest/doctest.h"
 
 #include "../common_definitions.hxx"
-#include "single-list-lib/list.h"
+#include "list-lib/list.h"
 
 TEST_SUITE("Task1_TestDataManipulation")
 {
