@@ -77,16 +77,18 @@ template <class T> class CSingleLinkedList
         void setLeaf(leaf *p)
         {
             m_pCurrent = p;
+            m_pBegin = nullptr;
         }
 
         void setLeafPreBegin(leaf *p)
         {
             m_pBegin = p;
+            m_pCurrent = nullptr;
         }
 
         bool isValid()
         {
-            return m_pBegin != nullptr || m_pCurrent != nullptr;;
+            return m_pCurrent != nullptr;;
         }
 
       private:
@@ -155,6 +157,31 @@ template <class T> class CSingleLinkedList
     // изменяет состояние итератора. выставляет предыдущую позицию.
     void erase(CIterator &it)
     {
+        leaf* iter = nullptr;
+        leaf* to_delete = it.getLeaf();
+
+        for (iter = m_pBegin; iter != nullptr && iter->pNext != it.getLeaf(); iter = iter->pNext) {
+        }
+
+        if (iter != nullptr) {
+            if (it.getLeaf() == m_pEnd) {
+                m_pEnd = iter;
+            }
+
+            iter->pNext = it.getLeaf()->pNext;
+            to_delete = it.getLeaf();
+            it.setLeaf(iter);
+        } else if (it.getLeaf() == m_pBegin) {
+            if (it.getLeaf() == m_pEnd) {
+                m_pEnd = nullptr;
+            }
+
+            m_pBegin = it.getLeaf()->pNext;
+            to_delete = it.getLeaf();
+            it.setLeafPreBegin(m_pBegin);
+        }
+
+        delete to_delete;
     }
 
     int getSize()
@@ -183,7 +210,7 @@ template <class T> class CSingleLinkedList
 
     CIterator begin()
     {
-        return CIterator();
+        return CIterator(m_pBegin);
     }
 
   private:
