@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.5)
 ## project definition #########################################################
 ###############################################################################
 
-project(single-list-lib LANGUAGES CXX)
+project(list-lib LANGUAGES CXX)
 
 ###############################################################################
 ## sources definitions ########################################################
@@ -12,7 +12,7 @@ project(single-list-lib LANGUAGES CXX)
 
 file(
         GLOB_RECURSE
-        SINGLE_LIST_LIB_HEADERS
+        LIST_LIB_HEADERS
         ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
 )
 
@@ -21,13 +21,13 @@ file(
 ###############################################################################
 
 add_library(
-        single-list-lib
-        ${SINGLE_LIST_LIB_HEADERS}
+        list-lib
+        ${LIST_LIB_HEADERS}
 )
 
 target_include_directories(
-        single-list-lib PUBLIC
+        list-lib PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include/
 )
 
-set_target_properties(single-list-lib PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(list-lib PROPERTIES LINKER_LANGUAGE CXX)

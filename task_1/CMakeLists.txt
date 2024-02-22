@@ -11,5 +11,5 @@ project(task_1)
 ###############################################################################
 
 add_subdirectory(
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/single-list-lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/list-lib
 )
