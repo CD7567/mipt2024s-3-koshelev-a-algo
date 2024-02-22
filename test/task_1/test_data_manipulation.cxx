@@ -1,9 +1,9 @@
 #include "doctest/doctest.h"
 
 #include "../common_definitions.hxx"
-#include "single-list-lib/single_list.h"
+#include "single-list-lib/list.h"
 
-TEST_SUITE("TestDataManipulation")
+TEST_SUITE("Task1_TestDataManipulation")
 {
     TEST_CASE("TestPushBackSize")
     {
