@@ -23,7 +23,8 @@
     cmake -DCMAKE_BUILD_TYPE=Release -B cmake-build-release . && cmake --build cmake-build-release 
 ```
 
-## Task 1: 08.02.2024-14.02.2024
+## Task 1: 08.02.2024-21.02.2024
 
 - [x] Создать шаблонный класс `CSingleLinkedList<T>`, реализующий односвязный список
+- [ ] Создать шаблонный класс `CDualLinkedList<T>`, реализующий двусвязный список
 - [x] Написать тесты
