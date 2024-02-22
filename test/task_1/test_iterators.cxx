@@ -3,8 +3,10 @@
 #include "../common_definitions.hxx"
 #include "single-list-lib/list.h"
 
-TEST_SUITE("Task1_TestIterators") {
-    TEST_CASE("TestIsValid") {
+TEST_SUITE("Task1_TestIterators")
+{
+    TEST_CASE("TestIsValid")
+    {
         lab618::CSingleLinkedList<TestStruct> list;
         TestStruct str{};
 
@@ -23,7 +25,8 @@ TEST_SUITE("Task1_TestIterators") {
         REQUIRE_FALSE(iter.isValid());
     }
 
-    TEST_CASE("TestDataCorrectness") {
+    TEST_CASE("TestDataCorrectness")
+    {
         lab618::CSingleLinkedList<TestStruct> list;
 
         for (size_t i = 0; i < test_size; ++i)
@@ -40,7 +43,8 @@ TEST_SUITE("Task1_TestIterators") {
         }
     }
 
-    TEST_CASE("TestEraseFromEnd") {
+    TEST_CASE("TestEraseFromEnd")
+    {
         lab618::CSingleLinkedList<TestStruct> list;
 
         for (size_t i = 0; i < test_size; ++i)
@@ -67,7 +71,8 @@ TEST_SUITE("Task1_TestIterators") {
         REQUIRE(iter.isValid());
     }
 
-    TEST_CASE("TestEraseFromMiddle") {
+    TEST_CASE("TestEraseFromMiddle")
+    {
         lab618::CSingleLinkedList<TestStruct> list;
 
         for (size_t i = 0; i < test_size; ++i)
@@ -94,7 +99,8 @@ TEST_SUITE("Task1_TestIterators") {
         REQUIRE(iter.isValid());
     }
 
-    TEST_CASE("TestEraseFromBegin") {
+    TEST_CASE("TestEraseFromBegin")
+    {
         lab618::CSingleLinkedList<TestStruct> list;
 
         for (size_t i = 0; i < test_size; ++i)
@@ -117,8 +123,8 @@ TEST_SUITE("Task1_TestIterators") {
         REQUIRE_FALSE(iter.isValid());
     }
 
-
-    TEST_CASE("TestEraseAll") {
+    TEST_CASE("TestEraseAll")
+    {
         lab618::CSingleLinkedList<TestStruct> list;
 
         for (size_t i = 0; i < test_size; ++i)
@@ -133,7 +139,8 @@ TEST_SUITE("Task1_TestIterators") {
         {
         }
 
-        for (size_t i = test_size; i > 0; --i, list.erase(iter)) {
+        for (size_t i = test_size; i > 0; --i, list.erase(iter))
+        {
             REQUIRE_EQ(iter.getData().number_, i - 1);
             REQUIRE_EQ(list.getSize(), i);
             REQUIRE(iter.isValid());

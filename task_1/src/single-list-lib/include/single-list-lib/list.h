@@ -88,7 +88,8 @@ template <class T> class CSingleLinkedList
 
         bool isValid()
         {
-            return m_pCurrent != nullptr;;
+            return m_pCurrent != nullptr;
+            ;
         }
 
       private:
@@ -157,22 +158,28 @@ template <class T> class CSingleLinkedList
     // изменяет состояние итератора. выставляет предыдущую позицию.
     void erase(CIterator &it)
     {
-        leaf* iter = nullptr;
-        leaf* to_delete = it.getLeaf();
+        leaf *iter = nullptr;
+        leaf *to_delete = it.getLeaf();
 
-        for (iter = m_pBegin; iter != nullptr && iter->pNext != it.getLeaf(); iter = iter->pNext) {
+        for (iter = m_pBegin; iter != nullptr && iter->pNext != it.getLeaf(); iter = iter->pNext)
+        {
         }
 
-        if (iter != nullptr) {
-            if (it.getLeaf() == m_pEnd) {
+        if (iter != nullptr)
+        {
+            if (it.getLeaf() == m_pEnd)
+            {
                 m_pEnd = iter;
             }
 
             iter->pNext = it.getLeaf()->pNext;
             to_delete = it.getLeaf();
             it.setLeaf(iter);
-        } else if (it.getLeaf() == m_pBegin) {
-            if (it.getLeaf() == m_pEnd) {
+        }
+        else if (it.getLeaf() == m_pBegin)
+        {
+            if (it.getLeaf() == m_pEnd)
+            {
                 m_pEnd = nullptr;
             }
 
