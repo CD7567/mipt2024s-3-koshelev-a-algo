@@ -1,5 +1,7 @@
 # Task 1: 08.02.2024-21.02.2024
 
+## CSingleLinkedList
+
 Написать шаблонный односвязный список по шаблону:
 
 ```c++
@@ -85,9 +87,9 @@ namespace lab618
             }
 
         private:
-            //храним голову списка, если мы находимся перед началом
+            // Храним голову списка, если мы находимся перед началом
             leaf* m_pBegin;
-            // храним текущее положение
+            // Храним текущее положение
             leaf* m_pCurrent;
         };
 
@@ -115,7 +117,7 @@ namespace lab618
             return tmp;
         }
 
-        // изменяет состояние итератора. выставляет предыдущую позицию.
+        // Изменяет состояние итератора. выставляет предыдущую позицию.
         void erase(CIterator& it)
         {
         }
@@ -135,11 +137,25 @@ namespace lab618
         }
 
     private:
-        //храним голову и хвост списка
+        // Храним голову и хвост списка
         leaf* m_pBegin, * m_pEnd;
     };
     
+} // namespace lab618
+
+#endif //#ifndef TEMPLATES_LIST_2024_02_12
+```
+
+## CDualLinkedList
+
+Написать двусвязный список по шаблону:
     
+```c++
+#ifndef TEMPLATES_LIST_2024_02_12
+#define TEMPLATES_LIST_2024_02_12
+
+namespace lab618
+{
     template<class T>
     class CDualLinkedList
     {
@@ -207,17 +223,17 @@ namespace lab618
                 return 0;
             }
 
-            // применяется в erase и eraseAndNext
+            // Применяется в erase и eraseAndNext
             void setLeaf(leaf* p)
             {
             }
 
-            // применяется в erase и eraseAndNext
+            // Применяется в erase и eraseAndNext
             void setLeafPreBegin(leaf* p)
             {
             }
 
-            // применяется в erase и eraseAndNext
+            // Применяется в erase и eraseAndNext
             void setLeafPostEnd(leaf* p)
             {
             }
@@ -227,11 +243,11 @@ namespace lab618
             }
 
         private:
-            //храним голову списка, если мы находимся перед началом
+            // Храним голову списка, если мы находимся перед началом
             leaf* m_pBegin;
-            // храним текущее положение
+            // Храним текущее положение
             leaf* m_pCurrent;
-            //храним конец списка, если мы находимся после конца
+            // Храним конец списка, если мы находимся после конца
             leaf* m_pEnd;
         };
 
@@ -265,12 +281,12 @@ namespace lab618
             return tmp;
         }
 
-        // изменяет состояние итератора. выставляет предыдущую позицию.
+        // Изменяет состояние итератора. выставляет предыдущую позицию.
         void erase(CIterator& it)
         {
         }
 
-        // изменяет состояние итератора. выставляет следующую позицию.
+        // Изменяет состояние итератора. выставляет следующую позицию.
         void eraseAndNext(CIterator& it)
         {
         }
@@ -295,9 +311,11 @@ namespace lab618
         }
 
     private:
-        //храним голову и хвост списка
+        // Храним голову и хвост списка
         leaf* m_pBegin, * m_pEnd;
     };
-};
+    
+} // namespace lab618
+
 #endif //#ifndef TEMPLATES_LIST_2024_02_12
 ```
