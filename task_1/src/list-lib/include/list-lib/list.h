@@ -164,24 +164,19 @@ template <class T> class CSingleLinkedList
         {
         }
 
+        if (it.getLeaf() == m_pEnd)
+        {
+            m_pEnd = iter;
+        }
+
         if (iter != nullptr)
         {
-            if (it.getLeaf() == m_pEnd)
-            {
-                m_pEnd = iter;
-            }
-
             iter->pNext = it.getLeaf()->pNext;
             to_delete = it.getLeaf();
             it.setLeaf(iter);
         }
         else if (it.getLeaf() == m_pBegin)
         {
-            if (it.getLeaf() == m_pEnd)
-            {
-                m_pEnd = nullptr;
-            }
-
             m_pBegin = it.getLeaf()->pNext;
             to_delete = it.getLeaf();
             it.setLeafPreBegin(m_pBegin);
