@@ -2,5 +2,5 @@
 
 #include "doctest/doctest.h"
 
-#include "task_1/test_data_manipulation.cxx"
-#include "task_1/test_iterators.cxx"
+#include "task_1/CSingleLinkedList/test_data_manipulation.cxx"
+#include "task_1/CSingleLinkedList/test_iterators.cxx"
