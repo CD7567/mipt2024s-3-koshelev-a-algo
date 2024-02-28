@@ -4,3 +4,5 @@
 
 #include "task_1/CSingleLinkedList/test_data_manipulation.cxx"
 #include "task_1/CSingleLinkedList/test_iterators.cxx"
+#include "task_1/CDualLinkedList/test_data_manipulation.cxx"
+#include "task_1/CDualLinkedList/test_iterators.cxx"
