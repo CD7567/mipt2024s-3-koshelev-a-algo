@@ -67,6 +67,14 @@ TEST_SUITE("Task1_TestDataManipulation")
         }
     }
 
+    TEST_CASE("TestClearEmpty")
+    {
+        lab618::CSingleLinkedList<TestStruct> list;
+
+        REQUIRE_NOTHROW(list.clear());
+        REQUIRE_EQ(list.getSize(), 0L);
+    }
+
     TEST_CASE("TestClear")
     {
         lab618::CSingleLinkedList<TestStruct> list;

@@ -25,7 +25,7 @@ TEST_SUITE("Task1_TestIterators")
         REQUIRE_FALSE(iter.isValid());
     }
 
-    TEST_CASE("TestDataCorrectness")
+    TEST_CASE("TestDataCorrectnessGetData")
     {
         lab618::CSingleLinkedList<TestStruct> list;
 
@@ -40,6 +40,24 @@ TEST_SUITE("Task1_TestIterators")
         for (size_t i = 0; i < test_size; ++i, ++iter)
         {
             REQUIRE_EQ(iter.getData().number_, i);
+        }
+    }
+
+    TEST_CASE("TestDataCorrectnessAsterisk")
+    {
+        lab618::CSingleLinkedList<TestStruct> list;
+
+        for (size_t i = 0; i < test_size; ++i)
+        {
+            TestStruct str{i};
+            list.pushBack(str);
+        }
+
+        lab618::CSingleLinkedList<TestStruct>::CIterator iter = list.begin();
+
+        for (size_t i = 0; i < test_size; ++i, ++iter)
+        {
+            REQUIRE_EQ((*iter).number_, i);
         }
     }
 
