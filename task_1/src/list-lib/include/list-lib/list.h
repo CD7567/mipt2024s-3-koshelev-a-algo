@@ -56,7 +56,12 @@ template <class T> class CSingleLinkedList
 
         void operator++()
         {
-            m_pCurrent = m_pCurrent->pNext;
+            if (m_pBegin != nullptr) {
+                m_pCurrent = m_pBegin;
+                m_pBegin = nullptr;
+            } else {
+                m_pCurrent = m_pCurrent->pNext;
+            }
         }
 
         T &getData()
