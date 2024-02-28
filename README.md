@@ -23,13 +23,21 @@
     cmake -DCMAKE_BUILD_TYPE=Release -B cmake-build-release . && cmake --build cmake-build-release 
 ```
 
-## Task 1: 08.02.2024-21.02.2024
+## Task 1: List
+
+### Week 1: 08.02.2024-14.02.2024
 
 - [x] Создать шаблонный класс `CSingleLinkedList<class T>`, реализующий односвязный список
+- [x] Написать тесты
+
+### Week 2: 15.02.2024-21.02.2024
+
 - [x] Создать шаблонный класс `CDualLinkedList<class T>`, реализующий двусвязный список
 - [x] Написать тесты
 
-## Task 2: 22.02.2024-28.02.2024
+## Task 2: HashMap
+
+### Week 3: 22.02.2024-28.02.2024
 
 - [ ] Создать шаблонный класс `CHash<class T, unsigned int (*HashFunc)(const T*), int (*Compare)(const T*, const T*)>`
 - [ ] Написать тесты
