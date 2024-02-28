@@ -141,7 +141,45 @@ TEST_SUITE("Task1_CSingleLinkedList_TestIterators")
         REQUIRE_FALSE(iter.isValid());
     }
 
-    TEST_CASE("TestEraseAll")
+    TEST_CASE("TestEraseAllBegin")
+    {
+        lab618::CSingleLinkedList<TestStruct> list;
+
+        for (size_t i = 0; i < test_size; ++i)
+        {
+            TestStruct str{i};
+            list.pushBack(str);
+        }
+
+        lab618::CSingleLinkedList<TestStruct>::CIterator iter = list.begin();
+
+        for (size_t i = 0; i < test_size; ++i, list.erase(iter), ++iter)
+        {
+            REQUIRE_EQ(iter.getData().number_, i);
+            REQUIRE_EQ(list.getSize(), test_size - i);
+            REQUIRE(iter.isValid());
+        }
+
+        REQUIRE_FALSE(iter.isValid());
+
+        for (size_t i = 0; i < test_size; ++i)
+        {
+            TestStruct str{i};
+            list.pushBack(str);
+        }
+
+        REQUIRE_EQ(list.getSize(), test_size);
+
+        for (size_t i = 0; i < test_size; ++i)
+        {
+            TestStruct str{i};
+            list.pushFront(str);
+        }
+
+        REQUIRE_EQ(list.getSize(), 2 * test_size);
+    }
+
+    TEST_CASE("TestEraseAllEnd")
     {
         lab618::CSingleLinkedList<TestStruct> list;
 
