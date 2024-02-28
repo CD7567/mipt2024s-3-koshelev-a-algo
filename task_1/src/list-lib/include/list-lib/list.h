@@ -59,7 +59,7 @@ template <class T> class CSingleLinkedList
             if (m_pBegin != nullptr) {
                 m_pCurrent = m_pBegin;
                 m_pBegin = nullptr;
-            } else {
+            } else if (m_pCurrent != nullptr) {
                 m_pCurrent = m_pCurrent->pNext;
             }
         }
@@ -140,12 +140,10 @@ template <class T> class CSingleLinkedList
 
         if (m_pBegin == nullptr)
         {
-            m_pBegin = m_pEnd = p_newNode;
+            m_pEnd = p_newNode;
         }
-        else
-        {
-            m_pBegin = p_newNode;
-        }
+
+        m_pBegin = p_newNode;
     }
 
     T popFront()
