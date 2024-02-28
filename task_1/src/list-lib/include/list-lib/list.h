@@ -268,20 +268,26 @@ template <class T> class CDualLinkedList
 
         void operator++()
         {
-            if (m_pBegin != nullptr) {
+            if (m_pBegin != nullptr)
+            {
                 m_pCurrent = m_pBegin;
                 m_pBegin = nullptr;
-            } else {
+            }
+            else
+            {
                 m_pCurrent = m_pCurrent->pNext;
             }
         }
 
         void operator--()
         {
-            if (m_pEnd != nullptr) {
+            if (m_pEnd != nullptr)
+            {
                 m_pCurrent = m_pEnd;
                 m_pEnd = nullptr;
-            } else {
+            }
+            else
+            {
                 m_pCurrent = m_pCurrent->pPrev;
             }
         }
@@ -340,7 +346,7 @@ template <class T> class CDualLinkedList
     };
 
   public:
-    CDualLinkedList()= default;
+    CDualLinkedList() = default;
 
     virtual ~CDualLinkedList()
     {
@@ -375,9 +381,12 @@ template <class T> class CDualLinkedList
 
         m_pEnd = m_pEnd->pPrev;
 
-        if (m_pEnd != nullptr) {
+        if (m_pEnd != nullptr)
+        {
             m_pEnd->pNext = nullptr;
-        } else {
+        }
+        else
+        {
             m_pBegin = nullptr;
         }
 
@@ -407,9 +416,12 @@ template <class T> class CDualLinkedList
 
         m_pBegin = m_pBegin->pNext;
 
-        if (m_pBegin != nullptr) {
+        if (m_pBegin != nullptr)
+        {
             m_pBegin->pPrev = nullptr;
-        } else {
+        }
+        else
+        {
             m_pEnd = nullptr;
         }
 
@@ -430,7 +442,9 @@ template <class T> class CDualLinkedList
         if (it.getLeaf() == m_pEnd)
         {
             m_pEnd = iter;
-        } else {
+        }
+        else
+        {
             it.getLeaf()->pNext->pPrev = iter;
         }
 
@@ -463,7 +477,9 @@ template <class T> class CDualLinkedList
         if (it.getLeaf() == m_pBegin)
         {
             m_pBegin = iter;
-        } else {
+        }
+        else
+        {
             it.getLeaf()->pPrev->pNext = iter;
         }
 
