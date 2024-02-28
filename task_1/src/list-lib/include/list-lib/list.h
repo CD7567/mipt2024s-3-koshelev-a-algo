@@ -165,25 +165,23 @@ template <class T> class CSingleLinkedList
         leaf *iter = nullptr;
         leaf *to_delete = it.getLeaf();
 
-        for (iter = m_pBegin; iter != nullptr && iter->pNext != it.getLeaf(); iter = iter->pNext)
+        for (iter = m_pBegin; iter != nullptr && iter->pNext != to_delete; iter = iter->pNext)
         {
         }
 
-        if (it.getLeaf() == m_pEnd)
+        if (to_delete == m_pEnd)
         {
             m_pEnd = iter;
         }
 
         if (iter != nullptr)
         {
-            iter->pNext = it.getLeaf()->pNext;
-            to_delete = it.getLeaf();
+            iter->pNext = to_delete->pNext;
             it.setLeaf(iter);
         }
         else if (it.getLeaf() == m_pBegin)
         {
-            m_pBegin = it.getLeaf()->pNext;
-            to_delete = it.getLeaf();
+            m_pBegin = to_delete->pNext;
             it.setLeafPreBegin(m_pBegin);
         }
 
@@ -442,29 +440,27 @@ template <class T> class CDualLinkedList
         leaf *iter = nullptr;
         leaf *to_delete = it.getLeaf();
 
-        for (iter = m_pBegin; iter != nullptr && iter->pNext != it.getLeaf(); iter = iter->pNext)
+        for (iter = m_pBegin; iter != nullptr && iter->pNext != to_delete; iter = iter->pNext)
         {
         }
 
-        if (it.getLeaf() == m_pEnd)
+        if (to_delete == m_pEnd)
         {
             m_pEnd = iter;
         }
         else
         {
-            it.getLeaf()->pNext->pPrev = iter;
+            to_delete->pPrev = iter;
         }
 
         if (iter != nullptr)
         {
-            iter->pNext = it.getLeaf()->pNext;
-            to_delete = it.getLeaf();
+            iter->pNext = to_delete->pNext;
             it.setLeaf(iter);
         }
-        else if (it.getLeaf() == m_pBegin)
+        else if (to_delete == m_pBegin)
         {
-            m_pBegin = it.getLeaf()->pNext;
-            to_delete = it.getLeaf();
+            m_pBegin = to_delete->pNext;
             it.setLeafPreBegin(m_pBegin);
         }
 
@@ -477,29 +473,27 @@ template <class T> class CDualLinkedList
         leaf *iter = nullptr;
         leaf *to_delete = it.getLeaf();
 
-        for (iter = m_pEnd; iter != nullptr && iter->pPrev != it.getLeaf(); iter = iter->pPrev)
+        for (iter = m_pEnd; iter != nullptr && iter->pPrev != to_delete; iter = iter->pPrev)
         {
         }
 
-        if (it.getLeaf() == m_pBegin)
+        if (to_delete == m_pBegin)
         {
             m_pBegin = iter;
         }
         else
         {
-            it.getLeaf()->pPrev->pNext = iter;
+            to_delete->pPrev->pNext = iter;
         }
 
         if (iter != nullptr)
         {
-            iter->pPrev = it.getLeaf()->pPrev;
-            to_delete = it.getLeaf();
+            iter->pPrev = to_delete->pPrev;
             it.setLeaf(iter);
         }
-        else if (it.getLeaf() == m_pEnd)
+        else if (to_delete == m_pEnd)
         {
-            m_pEnd = it.getLeaf()->pPrev;
-            to_delete = it.getLeaf();
+            m_pEnd = to_delete->pPrev;
             it.setLeafPostEnd(m_pEnd);
         }
 
