@@ -28,7 +28,7 @@ template <class T> class CSingleLinkedList
         {
         }
 
-        CIterator(leaf *p) : m_pCurrent(p), m_pBegin(nullptr)
+        explicit CIterator(leaf *p) : m_pCurrent(p), m_pBegin(nullptr)
         {
         }
 
@@ -36,14 +36,15 @@ template <class T> class CSingleLinkedList
         {
         }
 
-        ~CIterator()
-        {
-        }
+        ~CIterator() = default;
 
         CIterator &operator=(const CIterator &src)
         {
-            m_pBegin = src.m_pBegin;
-            m_pCurrent = src.m_pCurrent;
+            if (this != &src)
+            {
+                m_pBegin = src.m_pBegin;
+                m_pCurrent = src.m_pCurrent;
+            }
 
             return *this;
         }
@@ -65,8 +66,7 @@ template <class T> class CSingleLinkedList
 
         T &operator*()
         {
-            T tmp = *m_pCurrent;
-            return tmp;
+            return m_pCurrent->data;
         }
 
         leaf *getLeaf()
@@ -89,7 +89,6 @@ template <class T> class CSingleLinkedList
         bool isValid()
         {
             return m_pCurrent != nullptr;
-            ;
         }
 
       private:
@@ -224,6 +223,6 @@ template <class T> class CSingleLinkedList
     // храним голову и хвост списка
     leaf *m_pBegin, *m_pEnd;
 };
-}; // namespace lab618
+} // namespace lab618
 
 #endif // #ifndef TEMPLATES_LIST_2024_02_12

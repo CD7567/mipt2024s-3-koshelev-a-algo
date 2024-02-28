@@ -1,7 +1,7 @@
 #include "doctest/doctest.h"
 
 #include "../common_definitions.hxx"
-#include "single-list-lib/list.h"
+#include "list-lib/list.h"
 
 TEST_SUITE("Task1_TestDataManipulation")
 {
@@ -65,6 +65,14 @@ TEST_SUITE("Task1_TestDataManipulation")
             TestStruct str = list.popFront();
             REQUIRE_EQ(str.number_, test_size - i - 1);
         }
+    }
+
+    TEST_CASE("TestClearEmpty")
+    {
+        lab618::CSingleLinkedList<TestStruct> list;
+
+        REQUIRE_NOTHROW(list.clear());
+        REQUIRE_EQ(list.getSize(), 0L);
     }
 
     TEST_CASE("TestClear")

@@ -29,7 +29,7 @@ find_package(doctest REQUIRED)
 target_link_libraries(
         test-runner PRIVATE
         doctest::doctest
-        single-list-lib
+        list-lib
 )
 
 ###############################################################################
