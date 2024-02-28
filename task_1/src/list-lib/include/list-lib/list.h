@@ -239,7 +239,7 @@ template <class T> class CDualLinkedList
         {
         }
 
-        explicit CIterator(leaf *p) : m_pBegin(nullptr), m_pCurrent(nullptr), m_pEnd(nullptr)
+        explicit CIterator(leaf *p) : m_pBegin(nullptr), m_pCurrent(p), m_pEnd(nullptr)
         {
         }
 
@@ -271,9 +271,9 @@ template <class T> class CDualLinkedList
             if (m_pBegin != nullptr) {
                 m_pCurrent = m_pBegin;
                 m_pBegin = nullptr;
+            } else {
+                m_pCurrent = m_pCurrent->pNext;
             }
-
-            m_pCurrent = m_pCurrent->pNext;
         }
 
         void operator--()
@@ -281,9 +281,9 @@ template <class T> class CDualLinkedList
             if (m_pEnd != nullptr) {
                 m_pCurrent = m_pEnd;
                 m_pEnd = nullptr;
+            } else {
+                m_pCurrent = m_pCurrent->pPrev;
             }
-
-            m_pCurrent = m_pCurrent->pPrev;
         }
 
         T &getData()
@@ -375,8 +375,10 @@ template <class T> class CDualLinkedList
 
         m_pEnd = m_pEnd->pPrev;
 
-        if (m_pEnd->pPrev != nullptr) {
-            m_pEnd->pPrev->pNext = nullptr;
+        if (m_pEnd != nullptr) {
+            m_pEnd->pNext = nullptr;
+        } else {
+            m_pBegin = nullptr;
         }
 
         delete p_toRemove;
@@ -405,8 +407,10 @@ template <class T> class CDualLinkedList
 
         m_pBegin = m_pBegin->pNext;
 
-        if (m_pBegin->pNext != nullptr) {
-            m_pBegin->pNext->pPrev = nullptr;
+        if (m_pBegin != nullptr) {
+            m_pBegin->pPrev = nullptr;
+        } else {
+            m_pEnd = nullptr;
         }
 
         delete p_toRemove;
