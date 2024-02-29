@@ -450,7 +450,7 @@ template <class T> class CDualLinkedList
         }
         else
         {
-            to_delete->pPrev = iter;
+            to_delete->pNext->pPrev = iter;
         }
 
         if (iter != nullptr)
