@@ -35,9 +35,9 @@
 - [x] Создать шаблонный класс `CDualLinkedList<class T>`, реализующий двусвязный список
 - [x] Написать тесты
 
-## Task 2: HashMap
+## Task 2: HashTable
 
-### Week 3: 22.02.2024-28.02.2024
+### Weeks 3-4: 22.02.2024-06.03.2024
 
-- [ ] Создать шаблонный класс `CHash<class T, unsigned int (*HashFunc)(const T*), int (*Compare)(const T*, const T*)>`
-- [ ] Написать тесты
+- [x] Создать шаблонный класс `CHash<class T, unsigned int (*HashFunc)(const T*), int (*Compare)(const T*, const T*)>`
+- [x] Написать тесты
