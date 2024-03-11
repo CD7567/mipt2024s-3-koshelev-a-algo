@@ -1,6 +1,8 @@
 #ifndef HASH_HEAD_H_2024_02_23
 #define HASH_HEAD_H_2024_02_23
 
+#include <exception>
+
 namespace lab618
 {
 /**
@@ -49,17 +51,29 @@ class CHash
     {
         T *pData;
         leaf *pNext;
+
+        explicit leaf(T *data = nullptr, leaf *next = nullptr) : pData(data), pNext(next)
+        {
+        }
     };
 
   public:
     /**
     Исключение, которое применяется при нехватке памяти на работу алгоритма
     */
-    class CMemoryException
+    class CMemoryException final : public std::exception
     {
+      private:
+        const char *message_;
+
       public:
-        CMemoryException()
+        explicit CMemoryException(const char *msg = "Not enough memory!") : message_(msg)
         {
+        }
+
+        [[nodiscard]] const char *what() const noexcept override
+        {
+            return message_;
         }
     };
 
@@ -69,7 +83,7 @@ class CHash
     Размер Хеш таблицы реализуем жестко — изменение размера таблицы в зависимости от числа элементов в контейнере не
     требуется.
     */
-    CHash(int hashTableSize)
+    explicit CHash(int hashTableSize) : m_tableSize(hashTableSize), m_pTable(new leaf *[hashTableSize]())
     {
     }
 
@@ -78,6 +92,20 @@ class CHash
     */
     virtual ~CHash()
     {
+        leaf **it_bucket = m_pTable;
+
+        for (int i = 0; i < m_tableSize; ++i)
+        {
+            for (leaf *it = *(it_bucket++); it != nullptr;)
+            {
+                leaf *to_delete = it;
+
+                it = it->pNext;
+                delete to_delete;
+            }
+        }
+
+        delete[] m_pTable;
     }
 
     /**
@@ -85,16 +113,68 @@ class CHash
     */
     bool add(T *pElement)
     {
-        return false;
+        unsigned int idx;
+        leaf *elem_it = findLeaf(pElement, idx);
+
+        if (elem_it == nullptr)
+        {
+            leaf *bucket_it = m_pTable[idx];
+
+            if (bucket_it == nullptr)
+            {
+                try
+                {
+                    m_pTable[idx] = new leaf(pElement, nullptr);
+                }
+                catch (std::bad_alloc &exception)
+                {
+                    throw CMemoryException("Couldn't allocate new leaf!");
+                }
+            }
+            else
+            {
+                while (bucket_it->pNext != nullptr)
+                {
+                    bucket_it = bucket_it->pNext;
+                }
+
+                try
+                {
+                    bucket_it->pNext = new leaf(pElement, nullptr);
+                }
+                catch (std::bad_alloc &exception)
+                {
+                    throw CMemoryException("Couldn't allocate new leaf!");
+                }
+            }
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
-    Функция обновления элемента в Хеш-таблице. Обновляет, если элемент уже есть добавляет, если элемента еще нет.
-    Возвращает false, если был добавлен новый элемент, true если элемент обновлен.
+    Функция обновления элемента в Хеш-таблице. Обновляет, если элемент уже есть; добавляет, если элемента еще нет.
+    Возвращает false, если был добавлен новый элемент; true, если элемент обновлен.
     */
     bool update(T *pElement)
     {
-        return false;
+        unsigned int idx;
+        leaf *elem_it = findLeaf(pElement, idx);
+
+        if (elem_it == nullptr)
+        {
+            add(pElement);
+            return false;
+        }
+        else
+        {
+            elem_it->pData = pElement;
+            return true;
+        }
     }
 
     /**
@@ -103,7 +183,9 @@ class CHash
     основе которых рассчитывается хеш.*/
     T *find(const T &element)
     {
-        return nullptr;
+        unsigned int idx;
+        leaf *elem_it = findLeaf(&element, idx);
+        return elem_it == nullptr ? nullptr : elem_it->pData;
     }
 
     /**
@@ -111,7 +193,34 @@ class CHash
     */
     bool remove(const T &element)
     {
-        return false;
+        unsigned int idx;
+        leaf *elem_it = findLeaf(&element, idx);
+
+        if (elem_it != nullptr)
+        {
+            leaf *bucket_it = m_pTable[idx];
+
+            if (Compare(bucket_it->pData, &element) == 0)
+            {
+                m_pTable[idx] = bucket_it->pNext;
+            }
+            else
+            {
+                while (Compare(bucket_it->pNext->pData, &element) != 0)
+                {
+                    bucket_it = bucket_it->pNext;
+                }
+
+                bucket_it->pNext = bucket_it->pNext->pNext;
+            }
+
+            delete elem_it;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -119,11 +228,25 @@ class CHash
     */
     void clear()
     {
+        leaf **it_bucket = m_pTable;
+
+        for (int i = 0; i < m_tableSize; ++i)
+        {
+            for (leaf *it = *(it_bucket++); it != nullptr;)
+            {
+                leaf *to_delete = it;
+
+                it = it->pNext;
+                delete to_delete;
+            }
+
+            m_pTable[i] = nullptr;
+        }
     }
 
   private:
     /**
-    Элементарная функция поиска узла в Хеш-таблицу. Возвращает найденный узел и в переменную idx выставляет актуальный
+    Элементарная функция поиска узла в Хеш-таблице. Возвращает найденный узел и в переменную idx выставляет актуальный
     индекс хеш-таблицы. Данную функцию следует использовать в функциях add, update, find. Алгоритм функции:
      1. вычисляем хеш функцию
      2. вычисляем индекс в Хеш-таблице (приводим вычисленное значение хеш функции к размеру массива)
@@ -132,6 +255,20 @@ class CHash
     */
     leaf *findLeaf(const T *pElement, unsigned int &idx)
     {
+        idx = HashFunc(pElement) % m_tableSize;
+
+        leaf *bucket_it = m_pTable[idx];
+
+        while (bucket_it != nullptr)
+        {
+            if (Compare(bucket_it->pData, pElement) == 0)
+            {
+                return bucket_it;
+            }
+
+            bucket_it = bucket_it->pNext;
+        }
+
         return nullptr;
     }
 
@@ -145,6 +282,6 @@ class CHash
     */
     leaf **m_pTable;
 };
-}; // namespace lab618
+} // namespace lab618
 
 #endif // #define HASH_HEAD_H_2024_02_23
