@@ -101,7 +101,7 @@ TEST_SUITE("Task2_TestHashMap")
         lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
 
         auto *array = new TestStruct[2 * test_size];
-        TestStruct non_existent = TestStruct(0, "I am not on table");
+        TestStruct non_existent = TestStruct{0, "I am not on table"};
 
         for (size_t i = 0; i < 2 * test_size; ++i)
         {
