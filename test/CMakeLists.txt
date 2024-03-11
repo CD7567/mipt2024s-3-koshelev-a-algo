@@ -30,6 +30,7 @@ target_link_libraries(
         test-runner PRIVATE
         doctest::doctest
         list-lib
+        hash-lib
 )
 
 ###############################################################################
