@@ -4,38 +4,78 @@
 namespace lab618
 {
 
+/**
+ * Класс шаблонного односвязного списка
+ * @tparam T    Хранимый тип
+ */
 template <class T> class CSingleLinkedList
 {
   private:
+    /**
+     * Структура, реализующая лист односвязного списка
+     */
     struct leaf
     {
-        // Данные
+        /**
+         * Хранимый объект
+         */
         T data;
-        // Указатель на следующий лист списка
+
+        /**
+         * Указатель на следующий лист списка
+         */
         leaf *pNext;
+
+        /**
+         * Стандартный конструктор
+         * @param _data Элемент, конструируется копированием
+         * @param _pNext Указатель на следующий элемент
+         */
         leaf(T &_data, leaf *_pNext) : data(_data), pNext(_pNext)
         {
         }
     };
 
   public:
+    /**
+     * Forward-итератор односвязного списка
+     */
     class CIterator
     {
       public:
+        /**
+         * Конструктор по умолчанию, итератор совпадает с итератором сразу за списком
+         */
         CIterator() : m_pCurrent(nullptr), m_pBegin(nullptr)
         {
         }
 
+        /**
+         * Конструктор по листу
+         * @param p Лист, на который указывает итератор
+         */
         explicit CIterator(leaf *p) : m_pCurrent(p), m_pBegin(nullptr)
         {
         }
 
+        /**
+         * Конструктор копирования
+         * @param src Копируемый итератор
+         */
         CIterator(const CIterator &src) : m_pBegin(src.m_pBegin), m_pCurrent(src.m_pCurrent)
         {
         }
 
+        /**
+         * Стандартный деструктор
+         */
         ~CIterator() = default;
 
+        /**
+         * Оператор копирующего присваивания
+         * @param src Копируемый итератор
+         * @return Ссылка на текущий итератор
+         */
         CIterator &operator=(const CIterator &src)
         {
             if (this != &src)
@@ -47,11 +87,19 @@ template <class T> class CSingleLinkedList
             return *this;
         }
 
+        /**
+         * Оператор сравнения итераторов
+         * @param it Другой итератор
+         * @return Признак равенства
+         */
         bool operator!=(const CIterator &it) const
         {
             return m_pBegin != it.m_pBegin || m_pCurrent != it.m_pCurrent;
         }
 
+        /**
+         * Оператор инкремента
+         */
         void operator++()
         {
             if (m_pBegin != nullptr)
@@ -65,50 +113,85 @@ template <class T> class CSingleLinkedList
             }
         }
 
+        /**
+         * Получение данных из итератора
+         * @return Ссылка на хранимое значение
+         */
         T &getData()
         {
             return m_pCurrent->data;
         }
 
+        /**
+         * Оператор разыменования
+         * @return Ссылка на хранимое значение
+         */
         T &operator*()
         {
             return m_pCurrent->data;
         }
 
+        /**
+         * Получение листа по итератору
+         * @return Указатель на текущий лист
+         */
         leaf *getLeaf()
         {
             return m_pCurrent;
         }
 
+        /**
+         * Сеттер текущего листа
+         * @param p Новый текущий лист
+         */
         void setLeaf(leaf *p)
         {
             m_pCurrent = p;
             m_pBegin = nullptr;
         }
 
+        /**
+         * Сеттер итератора до начала списка
+         * @param p Первый лист списка, перед которым выставляем итератор
+         */
         void setLeafPreBegin(leaf *p)
         {
             m_pBegin = p;
             m_pCurrent = nullptr;
         }
 
+        /**
+         * Проверка валидности итератора. Итератор считается валидным, если он держит указатель на лист
+         * @return Признак валидности итератора
+         */
         bool isValid()
         {
             return m_pCurrent != nullptr;
         }
 
       private:
-        // Храним голову списка, если мы находимся перед началом
+        /**
+         * Голова списка, если мы находимся перед началом
+         */
         leaf *m_pBegin;
-        // Храним текущее положение
+
+        /**
+         * Текущий лист
+         */
         leaf *m_pCurrent;
     };
 
   public:
+    /**
+     * Стандартный конструктор
+     */
     CSingleLinkedList() : m_pBegin(nullptr), m_pEnd(nullptr)
     {
     }
 
+    /**
+     * Виртуальный деструктор, предусмотрено наследование
+     */
     virtual ~CSingleLinkedList()
     {
         for (leaf *it = m_pBegin; it != nullptr;)
@@ -120,6 +203,10 @@ template <class T> class CSingleLinkedList
         }
     }
 
+    /**
+     * Добавить элемент в конец списка
+     * @param data Новый элемент, добавляется копированием
+     */
     void pushBack(T &data)
     {
         leaf *p_newNode = new leaf(data, nullptr);
@@ -136,6 +223,10 @@ template <class T> class CSingleLinkedList
         m_pEnd = p_newNode;
     }
 
+    /**
+     * Добавить элемент в начало списка
+     * @param data Новый элемент, добавляется копированием
+     */
     void pushFront(T &data)
     {
         leaf *p_newNode = new leaf(data, m_pBegin);
@@ -148,6 +239,9 @@ template <class T> class CSingleLinkedList
         m_pBegin = p_newNode;
     }
 
+    /**
+     * Удалить элемент из начала списка
+     */
     T popFront()
     {
         T tmp = m_pBegin->data;
@@ -159,7 +253,10 @@ template <class T> class CSingleLinkedList
         return tmp;
     }
 
-    // Изменяет состояние итератора. выставляет предыдущую позицию
+    /**
+     * Удалить элемент по итератору. После удаления итератор указывает на элемент перед данным
+     * @param it Итератор списка
+     */
     void erase(CIterator &it)
     {
         leaf *iter = nullptr;
@@ -188,6 +285,10 @@ template <class T> class CSingleLinkedList
         delete to_delete;
     }
 
+    /**
+     * Рассчитать длину списка
+     * @return Длина списка
+     */
     int getSize()
     {
         int size = 0;
@@ -199,6 +300,9 @@ template <class T> class CSingleLinkedList
         return size;
     }
 
+    /**
+     * Очистить список, список остается валидным
+     */
     void clear()
     {
         for (leaf *it = m_pBegin; it != nullptr;)
@@ -212,13 +316,19 @@ template <class T> class CSingleLinkedList
         m_pBegin = m_pEnd = nullptr;
     }
 
+    /**
+     * Получить итератор на первый элемент списка
+     * @return Итератор на первый элемент списка
+     */
     CIterator begin()
     {
         return CIterator(m_pBegin);
     }
 
   private:
-    // Храним голову и хвост списка
+    /**
+     * Голова и хвост списка
+     */
     leaf *m_pBegin, *m_pEnd;
 };
 
