@@ -29,7 +29,7 @@ template <class T> class CSingleLinkedList
         /**
          * Стандартный конструктор
          * @param _data Элемент, конструируется копированием
-         * @param _pNext Указатель на следующий элемент
+         * @param _pNext Указатель на следующий лист
          */
         leaf(T &_data, leaf *_pNext) : data(_data), pNext(_pNext)
         {
@@ -90,7 +90,7 @@ template <class T> class CSingleLinkedList
         /**
          * Оператор сравнения итераторов
          * @param it Другой итератор
-         * @return Признак равенства
+         * @return Признак неравенства
          */
         bool operator!=(const CIterator &it) const
         {
@@ -332,38 +332,79 @@ template <class T> class CSingleLinkedList
     leaf *m_pBegin, *m_pEnd;
 };
 
+/**
+ * Класс шаблонного двусвязного списка
+ * @tparam T    Хранимый тип
+ */
 template <class T> class CDualLinkedList
 {
   private:
+    /**
+     * Структура, реализующая лист двусвязного списка
+     */
     struct leaf
     {
-        // Данные
+        /**
+         * Хранимый объект
+         */
         T data;
-        // Указатель на предыдущий / следующий лист списка
+
+        /**
+         * Указатели на следующий и предыдущий листы списка
+         */
         leaf *pNext, *pPrev;
+
+        /**
+         * Стандартный конструктор
+         * @param _data Элемент, конструируется копированием
+         * @param _pPrev Указатель на предыдущий лист
+         * @param _pNext Указатель на следующий лист
+         */
         leaf(T &_data, leaf *_pPrev, leaf *_pNext) : data(_data), pPrev(_pPrev), pNext(_pNext)
         {
         }
     };
 
   public:
+    /**
+     * Bidirectional-итератор односвязного списка
+     */
     class CIterator
     {
       public:
+        /**
+         * Конструктор по умолчанию, итератор совпадает с итератором сразу за списком
+         */
         CIterator() : m_pBegin(nullptr), m_pCurrent(nullptr), m_pEnd(nullptr)
         {
         }
 
+        /**
+         * Конструктор по листу
+         * @param p Лист, на который указывает итератор
+         */
         explicit CIterator(leaf *p) : m_pBegin(nullptr), m_pCurrent(p), m_pEnd(nullptr)
         {
         }
 
+        /**
+         * Конструктор копирования
+         * @param src Копируемый итератор
+         */
         CIterator(const CIterator &src) : m_pBegin(src.m_pBegin), m_pCurrent(src.m_pCurrent), m_pEnd(src.m_pCurrent)
         {
         }
 
+        /**
+         * Стандартный деструктор
+         */
         ~CIterator() = default;
 
+        /**
+         * Оператор копирующего присваивания
+         * @param src Копируемый итератор
+         * @return Ссылка на текущий итератор
+         */
         CIterator &operator=(const CIterator &src)
         {
             if (this != &src)
@@ -376,11 +417,19 @@ template <class T> class CDualLinkedList
             return *this;
         }
 
+        /**
+         * Оператор сравнения итераторов
+         * @param it Другой итератор
+         * @return Признак равенства
+         */
         bool operator!=(const CIterator &it) const
         {
             return m_pBegin != it.m_pBegin || m_pCurrent != it.m_pCurrent || m_pEnd != it.m_pEnd;
         }
 
+        /**
+         * Оператор инкремента
+         */
         void operator++()
         {
             if (m_pBegin != nullptr)
@@ -394,6 +443,9 @@ template <class T> class CDualLinkedList
             }
         }
 
+        /**
+         * Оператор декремента
+         */
         void operator--()
         {
             if (m_pEnd != nullptr)
@@ -407,22 +459,37 @@ template <class T> class CDualLinkedList
             }
         }
 
+        /**
+         * Получение данных из итератора
+         * @return Ссылка на хранимое значение
+         */
         T &getData()
         {
             return m_pCurrent->data;
         }
 
+        /**
+         * Оператор разыменования
+         * @return Ссылка на хранимое значение
+         */
         T &operator*()
         {
             return m_pCurrent->data;
         }
 
+        /**
+         * Получение листа по итератору
+         * @return Указатель на текущий лист
+         */
         leaf *getLeaf()
         {
             return m_pCurrent;
         }
 
-        // Применяется в erase и eraseAndNext
+        /**
+         * Сеттер текущего листа
+         * @param p Новый текущий лист
+         */
         void setLeaf(leaf *p)
         {
             m_pBegin = nullptr;
@@ -430,7 +497,10 @@ template <class T> class CDualLinkedList
             m_pEnd = nullptr;
         }
 
-        // Применяется в erase и eraseAndNext
+        /**
+         * Сеттер итератора до начала списка
+         * @param p Первый лист списка, перед которым выставляем итератор
+         */
         void setLeafPreBegin(leaf *p)
         {
             m_pBegin = p;
@@ -438,7 +508,10 @@ template <class T> class CDualLinkedList
             m_pEnd = nullptr;
         }
 
-        // Применяется в erase и eraseAndNext
+        /**
+         * Сеттер итератора за концом списка
+         * @param p Последний лист списка, после которого выставляем итератор
+         */
         void setLeafPostEnd(leaf *p)
         {
             m_pBegin = nullptr;
@@ -446,23 +519,41 @@ template <class T> class CDualLinkedList
             m_pEnd = p;
         }
 
+        /**
+         * Проверка валидности итератора. Итератор считается валидным, если он держит указатель на лист
+         * @return Признак валидности итератора
+         */
         bool isValid()
         {
             return m_pCurrent != nullptr;
         }
 
       private:
-        // Храним голову списка, если мы находимся перед началом
+        /**
+         * Голова списка, если мы находимся перед началом
+         */
         leaf *m_pBegin;
-        // Храним текущее положение
+
+        /**
+         * Текущий лист
+         */
         leaf *m_pCurrent;
-        // Храним конец списка, если мы находимся после конца
+
+        /**
+         * Хвост списка, если мы находимся за концом
+         */
         leaf *m_pEnd;
     };
 
   public:
+    /**
+     * Стандартный конструктор
+     */
     CDualLinkedList() = default;
 
+    /**
+     * Виртуальный деструктор, предусмотрено наследование
+     */
     virtual ~CDualLinkedList()
     {
         for (leaf *it = m_pBegin; it != nullptr;)
@@ -474,6 +565,10 @@ template <class T> class CDualLinkedList
         }
     }
 
+    /**
+     * Добавить элемент в конец списка
+     * @param data Новый элемент, добавляется копированием
+     */
     void pushBack(T &data)
     {
         leaf *p_newNode = new leaf(data, m_pEnd, nullptr);
@@ -489,6 +584,9 @@ template <class T> class CDualLinkedList
         }
     }
 
+    /**
+     * Удалить элемент с конца списка
+     */
     T popBack()
     {
         T tmp = m_pEnd->data;
@@ -509,6 +607,10 @@ template <class T> class CDualLinkedList
         return tmp;
     }
 
+    /**
+     * Добавить элемент в начало списка
+     * @param data Новый элемент, добавляется копированием
+     */
     void pushFront(T &data)
     {
         leaf *p_newNode = new leaf(data, nullptr, m_pBegin);
@@ -524,6 +626,9 @@ template <class T> class CDualLinkedList
         }
     }
 
+    /**
+     * Удалить элемент из начала списка
+     */
     T popFront()
     {
         T tmp = m_pBegin->data;
@@ -544,7 +649,10 @@ template <class T> class CDualLinkedList
         return tmp;
     }
 
-    // Изменяет состояние итератора. выставляет предыдущую позицию.
+    /**
+     * Удалить элемент по итератору. После удаления итератор указывает на элемент перед данным
+     * @param it Итератор списка
+     */
     void erase(CIterator &it)
     {
         leaf *iter = nullptr;
@@ -577,7 +685,10 @@ template <class T> class CDualLinkedList
         delete to_delete;
     }
 
-    // Изменяет состояние итератора. выставляет следующую позицию.
+    /**
+     * Удалить элемент по итератору. После удаления итератор указывает на элемент после данного
+     * @param it Итератор списка
+     */
     void eraseAndNext(CIterator &it)
     {
         leaf *iter = nullptr;
@@ -610,6 +721,10 @@ template <class T> class CDualLinkedList
         delete to_delete;
     }
 
+    /**
+     * Рассчитать длину списка
+     * @return Длина списка
+     */
     int getSize()
     {
         int size = 0;
@@ -621,6 +736,9 @@ template <class T> class CDualLinkedList
         return size;
     }
 
+    /**
+     * Очистить список, список остается валидным
+     */
     void clear()
     {
         for (leaf *it = m_pBegin; it != nullptr;)
@@ -634,18 +752,28 @@ template <class T> class CDualLinkedList
         m_pBegin = m_pEnd = nullptr;
     }
 
+    /**
+     * Получить итератор на первый элемент списка
+     * @return Итератор на первый элемент списка
+     */
     CIterator begin()
     {
         return CIterator(m_pBegin);
     }
 
+    /**
+     * Получить итератор на последний элемент списка
+     * @return Итератор на последний элемент списка
+     */
     CIterator end()
     {
         return CIterator(m_pEnd);
     }
 
   private:
-    // Храним голову и хвост списка
+    /**
+     * Голова и хвост списка
+     */
     leaf *m_pBegin, *m_pEnd;
 };
 
