@@ -39,5 +39,12 @@
 
 ### Weeks 3-4: 22.02.2024-06.03.2024
 
-- [x] Создать шаблонный класс `CHash<class T, unsigned int (*HashFunc)(const T*), int (*Compare)(const T*, const T*)>`
+- [x] Создать шаблонный класс `CHash<class T, unsigned int (*HashFunc)(const T*), int (*Compare)(const T*, const T*)>`, реализующий нехранящую хеш-таблицу
 - [x] Написать тесты
+
+## Task 3: MemoryManager
+
+### Week 5: 07.03.2024-13.03.2024
+
+- [ ] Создать шаблонный класс `CMemoryManager<class T>`, реализующий менеджер памяти
+- [ ] Написать тесты
