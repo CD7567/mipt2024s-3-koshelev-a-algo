@@ -105,8 +105,9 @@ class CHash
      * требуется.
      * @param hashTableSize Размер хеш-таблицы
      */
-    explicit CHash(int hashTableSize) : m_tableSize(hashTableSize), m_pTable(new leaf *[hashTableSize]())
+    explicit CHash(int hashTableSize) : m_tableSize(hashTableSize), m_pTable(new leaf *[hashTableSize])
     {
+        std::fill(m_pTable, m_pTable + m_tableSize, nullptr);
     }
 
     /**
@@ -142,42 +143,10 @@ class CHash
 
         if (elem_it == nullptr)
         {
-            leaf *bucket_it = m_pTable[idx];
-
-            if (bucket_it == nullptr)
-            {
-                try
-                {
-                    m_pTable[idx] = new leaf(pElement, nullptr);
-                }
-                catch (std::bad_alloc &exception)
-                {
-                    throw CMemoryException("Couldn't allocate new leaf!");
-                }
-            }
-            else
-            {
-                while (bucket_it->pNext != nullptr)
-                {
-                    bucket_it = bucket_it->pNext;
-                }
-
-                try
-                {
-                    bucket_it->pNext = new leaf(pElement, nullptr);
-                }
-                catch (std::bad_alloc &exception)
-                {
-                    throw CMemoryException("Couldn't allocate new leaf!");
-                }
-            }
-
-            return true;
+            addLeaf(pElement, idx);
         }
-        else
-        {
-            return false;
-        }
+
+        return elem_it == nullptr;
     }
 
     /**
@@ -193,14 +162,14 @@ class CHash
 
         if (elem_it == nullptr)
         {
-            add(pElement);
-            return false;
+            addLeaf(pElement, idx);
         }
         else
         {
             elem_it->pData = pElement;
-            return true;
         }
+
+        return elem_it != nullptr;
     }
 
     /**
@@ -244,12 +213,9 @@ class CHash
             }
 
             delete elem_it;
-            return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return elem_it != nullptr;
     }
 
     /**
@@ -300,6 +266,24 @@ class CHash
     }
 
     /**
+     * Элементарная функция добавления листа в корзину хеш-таблицы.
+     * Добавляет новый лист в начало корзины.
+     * @param pElement Добавляемый элемент
+     * @param idx Индекс корзины
+     */
+    void addLeaf(T *pElement, unsigned int idx)
+    {
+        try
+        {
+            m_pTable[idx] = new leaf(pElement, m_pTable[idx]);
+        }
+        catch (std::bad_alloc &exception)
+        {
+            throw CMemoryException("Couldn't allocate new leaf!");
+        }
+    }
+
+    /**
      * Размер Хеш-таблицы
      */
     int m_tableSize;
@@ -309,6 +293,7 @@ class CHash
      */
     leaf **m_pTable;
 };
+
 } // namespace lab618
 
 #endif // #define HASH_HEAD_H_2024_02_23
