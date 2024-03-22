@@ -32,3 +32,4 @@ endif()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/task_1)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/task_2)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/task_4)
