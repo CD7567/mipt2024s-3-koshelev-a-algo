@@ -31,6 +31,7 @@ target_link_libraries(
         doctest::doctest
         list-lib
         hash-lib
+        sort-lib
 )
 
 ###############################################################################
