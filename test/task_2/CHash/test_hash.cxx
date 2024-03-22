@@ -7,306 +7,211 @@ TEST_SUITE("Task2_TestHashMap")
 {
     TEST_CASE("TestConstructAndTeardownEmpty")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
     }
 
     TEST_CASE("TestAddNew")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        auto array = genFullRandomData<TEST_SIZE>();
 
-        auto *array = new TestStruct[2 * test_size];
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            array[i].number_ = i;
+            REQUIRE(hash_table.add(array.data() + i));
         }
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
-        {
-            REQUIRE(hash_table.add(array + i));
-        }
-
-        delete[] array;
     }
 
     TEST_CASE("TestAddDuplicates")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        auto array = genFullRandomData<TEST_SIZE>();
 
-        auto *array = new TestStruct[2 * test_size];
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            array[i].number_ = i;
+            REQUIRE(hash_table.add(array.data() + i));
         }
 
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE(hash_table.add(array + i));
+            REQUIRE_FALSE(hash_table.add(array.data() + i));
         }
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
-        {
-            REQUIRE_FALSE(hash_table.add(array + i));
-        }
-
-        delete[] array;
     }
 
     TEST_CASE("TestFindEmpty")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        auto array = genFullRandomData<TEST_SIZE>();
 
-        auto *array = new TestStruct[2 * test_size];
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
-        {
-            array[i].number_ = i;
-        }
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             REQUIRE_EQ(hash_table.find(array[i]), nullptr);
         }
-
-        delete[] array;
     }
 
     TEST_CASE("TestFindExisting")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        auto array = genFullRandomData<TEST_SIZE>();
 
-        auto *array = new TestStruct[2 * test_size];
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            array[i].number_ = i;
+            hash_table.add(array.data() + i);
         }
 
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            hash_table.add(array + i);
+            REQUIRE_EQ(hash_table.find(array[i]), array.data() + i);
         }
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
-        {
-            REQUIRE_EQ(hash_table.find(array[i]), array + i);
-        }
-
-        delete[] array;
     }
 
     TEST_CASE("TestFindNonExistent")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        auto array = genSortedData<TEST_SIZE>();
+        TestStruct non_existent = TestStruct{TEST_SIZE + 1, "I am string"};
 
-        auto *array = new TestStruct[2 * test_size];
-        TestStruct non_existent = TestStruct{0, "I am not on table"};
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            array[i].number_ = i;
+            hash_table.add(array.data() + i);
         }
 
-        for (size_t i = 0; i < 2 * test_size; ++i)
-        {
-            hash_table.add(array + i);
-        }
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             REQUIRE_EQ(hash_table.find(non_existent), nullptr);
         }
-
-        delete[] array;
     }
 
     TEST_CASE("TestUpdateNew")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        auto array = genFullRandomData<TEST_SIZE>();
 
-        auto *array = new TestStruct[2 * test_size];
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            array[i].number_ = i;
+            REQUIRE_FALSE(hash_table.update(array.data() + i));
         }
 
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_FALSE(hash_table.update(array + i));
+            REQUIRE_EQ(hash_table.find(array[i]), array.data() + i);
         }
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
-        {
-            REQUIRE_EQ(hash_table.find(array[i]), array + i);
-        }
-
-        delete[] array;
     }
 
     TEST_CASE("TestUpdateDuplicates")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        auto array = genFullRandomData<TEST_SIZE>();
 
-        auto *array = new TestStruct[2 * test_size];
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            array[i].number_ = i;
+            REQUIRE_FALSE(hash_table.update(array.data() + i));
         }
 
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_FALSE(hash_table.update(array + i));
+            REQUIRE(hash_table.update(array.data() + i));
         }
 
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE(hash_table.update(array + i));
+            REQUIRE_EQ(hash_table.find(array[i]), array.data() + i);
         }
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
-        {
-            REQUIRE_EQ(hash_table.find(array[i]), array + i);
-        }
-
-        delete[] array;
     }
 
     TEST_CASE("TestRemoveEmpty")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        auto array = genFullRandomData<TEST_SIZE>();
 
-        auto *array = new TestStruct[2 * test_size];
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
-        {
-            array[i].number_ = i;
-        }
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             REQUIRE_FALSE(hash_table.remove(array[i]));
         }
-
-        delete[] array;
     }
 
     TEST_CASE("TestRemoveNonEmpty")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        auto array = genFullRandomData<TEST_SIZE>();
 
-        auto *array = new TestStruct[2 * test_size];
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            array[i].number_ = i;
+            hash_table.add(array.data() + i);
         }
 
-        for (size_t i = 0; i < 2 * test_size; ++i)
-        {
-            hash_table.add(array + i);
-        }
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             REQUIRE(hash_table.remove(array[i]));
         }
 
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             REQUIRE_EQ(hash_table.find(array[i]), nullptr);
         }
-
-        delete[] array;
     }
 
     TEST_CASE("TestClearEmpty")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
         hash_table.clear();
     }
 
     TEST_CASE("TestClearNonEmpty")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        auto array = genFullRandomData<TEST_SIZE>();
 
-        auto *array = new TestStruct[2 * test_size];
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            array[i].number_ = i;
-        }
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
-        {
-            hash_table.add(array + i);
+            hash_table.add(array.data() + i);
         }
 
         hash_table.clear();
 
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             REQUIRE_EQ(hash_table.find(array[i]), nullptr);
         }
-
-        delete[] array;
     }
 
     TEST_CASE("TestValidityAfterClearEmpty")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        auto array = genFullRandomData<TEST_SIZE>();
+
         hash_table.clear();
 
-        auto *array = new TestStruct[2 * test_size];
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            array[i].number_ = i;
+            hash_table.add(array.data() + i);
         }
 
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            hash_table.add(array + i);
+            REQUIRE_EQ(hash_table.find(array[i]), array.data() + i);
         }
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
-        {
-            REQUIRE_EQ(hash_table.find(array[i]), array + i);
-        }
-
-        delete[] array;
     }
 
     TEST_CASE("TestValidityAfterClearNonEmpty")
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(test_size);
+        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        auto array = genFullRandomData<TEST_SIZE>();
 
-        auto *array = new TestStruct[2 * test_size];
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            array[i].number_ = i;
-        }
-
-        for (size_t i = 0; i < 2 * test_size; ++i)
-        {
-            hash_table.add(array + i);
+            hash_table.add(array.data() + i);
         }
 
         hash_table.clear();
 
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            hash_table.add(array + i);
+            hash_table.add(array.data() + i);
         }
 
-        for (size_t i = 0; i < 2 * test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_EQ(hash_table.find(array[i]), array + i);
+            REQUIRE_EQ(hash_table.find(array[i]), array.data() + i);
         }
-
-        delete[] array;
     }
 }

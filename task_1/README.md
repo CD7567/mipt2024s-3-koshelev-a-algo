@@ -1,4 +1,4 @@
-# Task 1: 08.02.2024-21.02.2024
+# Task 1: List
 
 ## CSingleLinkedList
 

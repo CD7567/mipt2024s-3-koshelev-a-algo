@@ -10,7 +10,7 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         lab618::CDualLinkedList<TestStruct> list;
         TestStruct str{};
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             REQUIRE_EQ(list.getSize(), i);
             list.pushBack(str);
@@ -22,7 +22,7 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         lab618::CDualLinkedList<TestStruct> list;
         TestStruct str{};
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             REQUIRE_EQ(list.getSize(), i);
             list.pushFront(str);
@@ -33,15 +33,15 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
     {
         lab618::CDualLinkedList<TestStruct> list;
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             TestStruct str{i};
             list.pushBack(str);
         }
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_EQ(list.getSize(), test_size - i);
+            REQUIRE_EQ(list.getSize(), TEST_SIZE - i);
 
             TestStruct str = list.popFront();
             REQUIRE_EQ(str.number_, i);
@@ -52,18 +52,18 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
     {
         lab618::CDualLinkedList<TestStruct> list;
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             TestStruct str{i};
             list.pushFront(str);
         }
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_EQ(list.getSize(), test_size - i);
+            REQUIRE_EQ(list.getSize(), TEST_SIZE - i);
 
             TestStruct str = list.popFront();
-            REQUIRE_EQ(str.number_, test_size - i - 1);
+            REQUIRE_EQ(str.number_, TEST_SIZE - i - 1);
         }
     }
 
@@ -71,18 +71,18 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
     {
         lab618::CDualLinkedList<TestStruct> list;
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             TestStruct str{i};
             list.pushBack(str);
         }
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_EQ(list.getSize(), test_size - i);
+            REQUIRE_EQ(list.getSize(), TEST_SIZE - i);
 
             TestStruct str = list.popBack();
-            REQUIRE_EQ(str.number_, test_size - i - 1);
+            REQUIRE_EQ(str.number_, TEST_SIZE - i - 1);
         }
     }
 
@@ -90,15 +90,15 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
     {
         lab618::CDualLinkedList<TestStruct> list;
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             TestStruct str{i};
             list.pushFront(str);
         }
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_EQ(list.getSize(), test_size - i);
+            REQUIRE_EQ(list.getSize(), TEST_SIZE - i);
 
             TestStruct str = list.popBack();
             REQUIRE_EQ(str.number_, i);
@@ -109,21 +109,21 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
     {
         lab618::CDualLinkedList<TestStruct> list;
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             TestStruct str{i};
             list.pushFront(str);
             list.pushBack(str);
         }
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_EQ(list.getSize(), 2 * (test_size - i));
+            REQUIRE_EQ(list.getSize(), 2 * (TEST_SIZE - i));
 
             TestStruct frontStr = list.popFront();
             TestStruct backStr = list.popBack();
-            REQUIRE_EQ(frontStr.number_, test_size - i - 1);
-            REQUIRE_EQ(backStr.number_, test_size - i - 1);
+            REQUIRE_EQ(frontStr.number_, TEST_SIZE - i - 1);
+            REQUIRE_EQ(backStr.number_, TEST_SIZE - i - 1);
         }
     }
 
@@ -143,14 +143,14 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         REQUIRE_NOTHROW(list.clear());
         REQUIRE_EQ(list.getSize(), 0L);
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             TestStruct str{i};
             list.pushFront(str);
             list.pushBack(str);
         }
 
-        REQUIRE_EQ(list.getSize(), 2 * test_size);
+        REQUIRE_EQ(list.getSize(), 2 * TEST_SIZE);
         REQUIRE_NOTHROW(list.clear());
         REQUIRE_EQ(list.getSize(), 0L);
     }
@@ -163,24 +163,24 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         REQUIRE_NOTHROW(list.clear());
         REQUIRE_EQ(list.getSize(), 0L);
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             TestStruct str{i};
             list.pushFront(str);
             list.pushBack(str);
         }
 
-        REQUIRE_EQ(list.getSize(), 2 * test_size);
+        REQUIRE_EQ(list.getSize(), 2 * TEST_SIZE);
         REQUIRE_NOTHROW(list.clear());
         REQUIRE_EQ(list.getSize(), 0L);
 
-        for (size_t i = 0; i < test_size; ++i)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             TestStruct str{i};
             list.pushFront(str);
             list.pushBack(str);
         }
 
-        REQUIRE_EQ(list.getSize(), 2 * test_size);
+        REQUIRE_EQ(list.getSize(), 2 * TEST_SIZE);
     }
 }
