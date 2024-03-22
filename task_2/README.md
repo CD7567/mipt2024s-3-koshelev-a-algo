@@ -1,4 +1,4 @@
-# Task 2: 22.02.2024-28.02.2024
+# Task 2: HashTable
 
 ## CHash
 
