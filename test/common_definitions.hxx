@@ -6,8 +6,8 @@
 #include <random>
 #include <string>
 
-#define test_size 10
-#define test_string_size 20
+#define TEST_SIZE 10
+#define TEST_STRING_SIZE 20
 
 /**
  * Компаратор для size_t, из-за беззнаковости не обойтись разностью
@@ -164,7 +164,7 @@ template <size_t size> std::array<TestStruct, size> genRandomNumData()
  * @tparam size Размер массива
  * @return Массив элементов
  */
-template <size_t size> std::array<TestStruct, size> genFullRandomData(size_t str_size = test_string_size)
+template <size_t size> std::array<TestStruct, size> genFullRandomData(size_t str_size = TEST_STRING_SIZE)
 {
     std::array<TestStruct, size> array;
 
