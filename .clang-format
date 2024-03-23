@@ -4,3 +4,4 @@ BasedOnStyle: Microsoft
 IndentWidth: 4
 AccessModifierOffset: -2
 TabWidth: 4
+InsertNewlineAtEOF: true
