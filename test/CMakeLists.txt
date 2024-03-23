@@ -31,6 +31,7 @@ target_link_libraries(
         doctest::doctest
         list-lib
         hash-lib
+        memory-lib
         sort-lib
 )
 
@@ -39,8 +40,8 @@ target_link_libraries(
 ###############################################################################
 
 if(DO_AUTORUN_TESTS)
-    add_custom_target(
-            run-tests ALL
-            COMMAND test-runner
-    )
+        add_custom_target(
+                run-tests ALL
+                COMMAND test-runner
+        )
 endif()

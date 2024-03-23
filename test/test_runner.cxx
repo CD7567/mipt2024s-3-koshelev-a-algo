@@ -9,5 +9,8 @@
 
 #include "task_2/CHash/test_hash.cxx"
 
+#include "task_3/CMemoryManager/test_mm_auto.cxx"
+#include "task_3/CMemoryManager/test_mm_manual.cxx"
+
 #include "task_4/test_heap_sort.cxx"
 #include "task_4/test_merge_sort.cxx"
