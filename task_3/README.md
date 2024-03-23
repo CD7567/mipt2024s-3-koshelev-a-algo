@@ -17,7 +17,7 @@ namespace lab618
         struct block
         {
             // Массив данных блока
-            T* pdata;
+            T* pData;
             // Адрес следующего блока
             block* pnext;
             // Первая свободная ячейка
