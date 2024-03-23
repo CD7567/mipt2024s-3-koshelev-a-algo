@@ -8,82 +8,133 @@
 #ifndef MEMORY_MANAGER_HEAD_H_2024_03_07
 #define MEMORY_MANAGER_HEAD_H_2024_03_07
 
+#include <exception>
+
 namespace lab618
 {
-    template <class T>
-    class CMemoryManager
+
+/**
+ * Шаблонный класс менеджера памяти.
+ * Ограничение: размер хранимого типа должен превосходить размер int.
+ * @tparam T Хранимый тип данных
+ */
+template <class T> class CMemoryManager
+{
+  private:
+    /**
+     * Структура, представляющая блок памяти
+     */
+    struct block
     {
-    private:
-        struct block
-        {
-            // Массив данных блока
-            T* pData;
-            // Адрес следующего блока
-            block* pnext;
-            // Первая свободная ячейка
-            int firstFreeIndex;
-            // Число заполненных ячеек
-            int usedCount;
-        };
-    public:
-        class CException
-        {
-        public:
-            CException()
-            {
-            }
-        };
-
-    public:
         /**
-          _default_block_size - количество элементов в блоке данных
-          isDeleteElementsOnDestruct - уничтожать элементы в деструкторе менеджера или проверять
-                                       на наличие неосвобожденных функцией deleteObject элементов.
-        */
-        CMemoryManager(int _default_block_size, bool isDeleteElementsOnDestruct = false)
-        {
-        }
+         * Массив данных блока
+         */
+        T *pData;
 
-        virtual ~CMemoryManager()
-        {
-        }
+        /**
+         * Адрес следующего блока
+         */
+        block *pNext;
 
-        // Получить адрес нового элемента из менеджера
-        T* newObject()
-        {
-        }
+        /**
+         * Первая свободная ячейка
+         */
+        int firstFreeIndex;
 
-        // Освободить элемент в менеджере
-        bool deleteObject(T* p)
-        {
-        }
-
-        // Очистка данных, зависит от m_isDeleteElementsOnDestruct
-        void clear()
-        {
-        }
-    private:
-
-        // Создать новый блок данных. применяется в newObject
-        block* newBlock()
-        {
-        }
-
-        // Освободить память блока данных. Применяется в clear
-        void deleteBlock(block* p)
-        {
-        }
-
-        // Размер блока
-        int m_blkSize;
-        // Начало списка блоков
-        block* m_pBlocks;
-        // Текущий блок
-        block* m_pCurrentBlk;
-        // Удалять ли элементы при освобождении
-        bool m_isDeleteElementsOnDestruct;
+        /**
+         * Число заполненных ячеек
+         */
+        int usedCount;
     };
-}; // namespace lab618
+
+  public:
+    /**
+     * Исключение, применяемое в данном классе
+     */
+    class CException
+    {
+    };
+
+  public:
+    /**
+     * Стандартный конструктор
+     * @param default_block_size Количество элементов в блоке данных
+     * @param isDeleteElementsOnDestruct Уничтожать элементы в деструкторе менеджера или проверять
+     *                                   на наличие неосвобожденных функцией deleteObject элементов
+     */
+    CMemoryManager(int default_block_size, bool isDeleteElementsOnDestruct = false)
+    {
+    }
+
+    /**
+     * Виртуальный деструктор, предусмотрено наследование
+     */
+    virtual ~CMemoryManager()
+    {
+    }
+
+    /**
+     * Получить новый элемент из менеджера
+     * @return Указатель на новый элемент
+     */
+    T *newObject()
+    {
+    }
+
+    /**
+     * Удалить элемент в менеджере
+     * @param elem Указатель на удаляемый объект
+     * @return Признак удаления объекта
+     */
+    bool deleteObject(T *elem)
+    {
+    }
+
+    /**
+     * Очистка данных
+     */
+    void clear()
+    {
+    }
+
+  private:
+    /**
+     * Создать новый блок памяти
+     */
+    block *newBlock()
+    {
+    }
+
+    /**
+     * Освободить память блока данных
+     * @param blk Освобождаемый блок
+     */
+    inline void deleteBlock(block *blk)
+    {
+    }
+
+    /**
+     * Размер блока
+     */
+    int m_blkSize;
+
+    /**
+     * Начало списка блоков
+     */
+    block *m_pBlocks;
+
+    /**
+     * Текущий блок
+     */
+    block *m_pCurrentBlk;
+
+    /**
+     * Удалять ли элементы при освобождении
+     */
+    bool m_isDeleteElementsOnDestruct;
+};
+
+} // namespace lab618
 
 #endif // #define MEMORY_MANAGER_HEAD_H_2024_03_07
 ```
