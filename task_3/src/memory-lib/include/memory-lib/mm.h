@@ -166,6 +166,20 @@ template <class T> class CMemoryManager
     {
         block *blk_it = m_pBlocks;
 
+        if (!m_isDeleteElementsOnDestruct)
+        {
+            while (blk_it != nullptr)
+            {
+                if (blk_it->usedCount > 0)
+                {
+                    throw CException("Some elements were not deleted!");
+                }
+                blk_it = blk_it->pNext;
+            }
+        }
+
+        blk_it = m_pBlocks;
+
         while (blk_it != nullptr)
         {
             block *to_delete = blk_it;
@@ -209,13 +223,8 @@ template <class T> class CMemoryManager
      * Освободить память блока данных
      * @param blk Освобождаемый блок
      */
-    void deleteBlock(block *blk)
+    inline void deleteBlock(block *blk)
     {
-        if (!m_isDeleteElementsOnDestruct && blk->usedCount > 0)
-        {
-            throw CException("Some elements were not deleted!");
-        }
-
         delete[] blk->pData;
     }
 
@@ -225,7 +234,7 @@ template <class T> class CMemoryManager
      * @param blk Указатель на блок
      * @return Признак нахождения в блоке
      */
-    bool isInBlock(const T *elem, const block *blk)
+    inline bool isInBlock(const T *elem, const block *blk)
     {
         return blk->pData <= elem && elem < blk->pData + m_blkSize;
     }
