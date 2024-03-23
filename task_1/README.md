@@ -10,137 +10,226 @@
 
 namespace lab618
 {
-    template<class T>
-    class CSingleLinkedList
+
+/**
+ * Класс шаблонного односвязного списка
+ * @tparam T Хранимый тип
+ */
+template <class T> class CSingleLinkedList
+{
+  private:
+    /**
+     * Структура, реализующая лист односвязного списка
+     */
+    struct leaf
     {
-    private:
-        struct leaf
-        {
-            // Данные
-            T data;
-            // Указатель на следующий лист списка
-            leaf* pNext;
-            leaf(T& _data, leaf* _pNext)
-            {
-            }
-        };
-    public:
-        class CIterator
-        {
-        public:
-            CIterator()
-                : m_pCurrent(0), m_pBegin(0)
-            {
-            }
+        /**
+         * Хранимый объект
+         */
+        T data;
 
-            CIterator(leaf* p)
-            {
-            }
-
-            CIterator(const CIterator& src)
-            {
-            }
-
-            ~CIterator()
-            {
-            }
-
-            CIterator& operator = (const CIterator& src)
-            {
-            }
-
-            bool operator != (const CIterator& it) const
-            {
-                return true;
-            }
-
-            void operator++()
-            {
-            }
-
-            T& getData()
-            {
-                return T();
-            }
-
-            T& operator* ()
-            {
-                T tmp;
-                return tmp;
-            }
-
-            leaf* getLeaf()
-            {
-                return 0;
-            }
-
-            void setLeaf(leaf* p)
-            {
-            }
-
-            void setLeafPreBegin(leaf* p)
-            {
-            }
-
-            bool isValid() {
-                return false;
-            }
-
-        private:
-            // Храним голову списка, если мы находимся перед началом
-            leaf* m_pBegin;
-            // Храним текущее положение
-            leaf* m_pCurrent;
-        };
-
-    public:
-
-        CSingleLinkedList()
-        {
-        }
-
-        virtual ~CSingleLinkedList()
-        {
-        }
-
-        void pushBack(T& data)
-        {
-        }
-
-        void pushFront(T& data)
-        {
-        }
-
-        T popFront()
-        {
-            T tmp;
-            return tmp;
-        }
-
-        // Изменяет состояние итератора. выставляет предыдущую позицию.
-        void erase(CIterator& it)
-        {
-        }
-
-        int getSize()
-        {
-            return 0;
-        }
-
-        void clear()
-        {
-        }
-
-        CIterator begin()
-        {
-            return CIterator();
-        }
-
-    private:
-        // Храним голову и хвост списка
-        leaf* m_pBegin, * m_pEnd;
+        /**
+         * Указатель на следующий лист списка
+         */
+        leaf *pNext;
     };
-    
+
+  public:
+    /**
+     * Forward-итератор односвязного списка
+     */
+    class CIterator
+    {
+      public:
+        /**
+         * Конструктор по умолчанию, итератор совпадает с итератором сразу за списком
+         */
+        CIterator()
+        {
+        }
+
+        /**
+         * Конструктор по листу
+         * @param p Лист, на который указывает итератор
+         */
+        explicit CIterator(leaf *p)
+        {
+        }
+
+        /**
+         * Конструктор копирования
+         * @param src Копируемый итератор
+         */
+        CIterator(const CIterator &src)
+        {
+        }
+
+        /**
+         * Стандартный деструктор
+         */
+        ~CIterator() = default;
+
+        /**
+         * Оператор копирующего присваивания
+         * @param src Копируемый итератор
+         * @return Ссылка на текущий итератор
+         */
+        CIterator &operator=(const CIterator &src)
+        {
+        }
+
+        /**
+         * Оператор сравнения итераторов
+         * @param it Другой итератор
+         * @return Признак неравенства
+         */
+        bool operator!=(const CIterator &it) const
+        {
+        }
+
+        /**
+         * Оператор инкремента
+         */
+        void operator++()
+        {
+        }
+
+        /**
+         * Получение данных из итератора
+         * @return Ссылка на хранимое значение
+         */
+        T &getData()
+        {
+        }
+
+        /**
+         * Оператор разыменования
+         * @return Ссылка на хранимое значение
+         */
+        T &operator*()
+        {
+        }
+
+        /**
+         * Получение листа по итератору
+         * @return Указатель на текущий лист
+         */
+        leaf *getLeaf()
+        {
+        }
+
+        /**
+         * Сеттер текущего листа
+         * @param p Новый текущий лист
+         */
+        void setLeaf(leaf *p)
+        {
+        }
+
+        /**
+         * Сеттер итератора до начала списка
+         * @param p Первый лист списка, перед которым выставляем итератор
+         */
+        void setLeafPreBegin(leaf *p)
+        {
+        }
+
+        /**
+         * Проверка валидности итератора. Итератор считается валидным, если он держит указатель на лист
+         * @return Признак валидности итератора
+         */
+        bool isValid()
+        {
+        }
+
+      private:
+        /**
+         * Голова списка, если мы находимся перед началом
+         */
+        leaf *m_pBegin;
+
+        /**
+         * Текущий лист
+         */
+        leaf *m_pCurrent;
+    };
+
+  public:
+    /**
+     * Стандартный конструктор
+     */
+    CSingleLinkedList()
+    {
+    }
+
+    /**
+     * Виртуальный деструктор, предусмотрено наследование
+     */
+    virtual ~CSingleLinkedList()
+    {
+    }
+
+    /**
+     * Добавить элемент в конец списка
+     * @param data Новый элемент, добавляется копированием
+     */
+    void pushBack(T &data)
+    {
+    }
+
+    /**
+     * Добавить элемент в начало списка
+     * @param data Новый элемент, добавляется копированием
+     */
+    void pushFront(T &data)
+    {
+    }
+
+    /**
+     * Удалить элемент из начала списка
+     */
+    T popFront()
+    {
+    }
+
+    /**
+     * Удалить элемент по итератору. После удаления итератор указывает на элемент перед данным
+     * @param it Итератор списка
+     */
+    void erase(CIterator &it)
+    {
+    }
+
+    /**
+     * Рассчитать длину списка
+     * @return Длина списка
+     */
+    int getSize()
+    {
+    }
+
+    /**
+     * Очистить список, список остается валидным
+     */
+    void clear()
+    {
+    }
+
+    /**
+     * Получить итератор на первый элемент списка
+     * @return Итератор на первый элемент списка
+     */
+    CIterator begin()
+    {
+    }
+
+  private:
+    /**
+     * Голова и хвост списка
+     */
+    leaf *m_pBegin, *m_pEnd;
+};
+
 } // namespace lab618
 
 #endif //#ifndef TEMPLATES_LIST_2024_02_12
@@ -156,166 +245,272 @@ namespace lab618
 
 namespace lab618
 {
-    template<class T>
-    class CDualLinkedList
-    {
-    private:
-        struct leaf
-        {
-            // Данные
-            T data;
-            // Указатель на предыдущий / следующий лист списка
-            leaf* pNext, * pPrev;
-            leaf(T& _data, leaf* _pPrev, leaf* _pNext)
-            {
-            }
-        };
-    public:
-        class CIterator
-        {
-        public:
-            CIterator()
-            {
-            }
-
-            CIterator(leaf* p)
-            {
-            }
-
-            CIterator(const CIterator& src)
-            {
-            }
-
-            ~CIterator()
-            {
-            }
-
-            CIterator& operator = (const CIterator& src)
-            {
-            }
-
-            bool operator != (const CIterator& it) const
-            {
-            }
-
-            void operator++()
-            {
-            }
-
-            void operator--()
-            {
-            }
-
-            T& getData()
-            {
-                T tmp;
-                return tmp;
-            }
-
-            T& operator* ()
-            {
-                T tmp;
-                return tmp;
-            }
-
-            leaf* getLeaf()
-            {
-                return 0;
-            }
-
-            // Применяется в erase и eraseAndNext
-            void setLeaf(leaf* p)
-            {
-            }
-
-            // Применяется в erase и eraseAndNext
-            void setLeafPreBegin(leaf* p)
-            {
-            }
-
-            // Применяется в erase и eraseAndNext
-            void setLeafPostEnd(leaf* p)
-            {
-            }
-
-            bool isValid() {
-                return false;
-            }
-
-        private:
-            // Храним голову списка, если мы находимся перед началом
-            leaf* m_pBegin;
-            // Храним текущее положение
-            leaf* m_pCurrent;
-            // Храним конец списка, если мы находимся после конца
-            leaf* m_pEnd;
-        };
-
-    public:
-
-        CDualLinkedList()
-        {
-        };
-
-        virtual ~CDualLinkedList()
-        {
-        };
-
-        void pushBack(T& data)
-        {
-        }
-
-        T popBack()
-        {
-            T tmp;
-            return tmp;
-        }
-
-        void pushFront(T& data)
-        {
-        }
-
-        T popFront()
-        {
-            T tmp;
-            return tmp;
-        }
-
-        // Изменяет состояние итератора. выставляет предыдущую позицию.
-        void erase(CIterator& it)
-        {
-        }
-
-        // Изменяет состояние итератора. выставляет следующую позицию.
-        void eraseAndNext(CIterator& it)
-        {
-        }
-
-        int getSize()
-        {
-            return 0;
-        }
-
-        void clear()
-        {
-        }
-
-        CIterator begin()
-        {
-            return CIterator();
-        }
-
-        CIterator end()
-        {
-            return CIterator();
-        }
-
-    private:
-        // Храним голову и хвост списка
-        leaf* m_pBegin, * m_pEnd;
-    };
     
+/**
+ * Класс шаблонного двусвязного списка
+ * @tparam T Хранимый тип
+ */
+template <class T> class CDualLinkedList
+{
+  private:
+    /**
+     * Структура, реализующая лист двусвязного списка
+     */
+    struct leaf
+    {
+        /**
+         * Хранимый объект
+         */
+        T data;
+
+        /**
+         * Указатели на следующий и предыдущий листы списка
+         */
+        leaf *pNext, *pPrev;
+    };
+
+  public:
+    /**
+     * Bidirectional-итератор односвязного списка
+     */
+    class CIterator
+    {
+      public:
+        /**
+         * Конструктор по умолчанию, итератор совпадает с итератором сразу за списком
+         */
+        CIterator()
+        {
+        }
+
+        /**
+         * Конструктор по листу
+         * @param p Лист, на который указывает итератор
+         */
+        explicit CIterator(leaf *p)
+        {
+        }
+
+        /**
+         * Конструктор копирования
+         * @param src Копируемый итератор
+         */
+        CIterator(const CIterator &src)
+        {
+        }
+
+        /**
+         * Стандартный деструктор
+         */
+        ~CIterator()
+        {
+        }
+
+        /**
+         * Оператор копирующего присваивания
+         * @param src Копируемый итератор
+         * @return Ссылка на текущий итератор
+         */
+        CIterator &operator=(const CIterator &src)
+        {
+        }
+
+        /**
+         * Оператор сравнения итераторов
+         * @param it Другой итератор
+         * @return Признак равенства
+         */
+        bool operator!=(const CIterator &it) const
+        {
+        }
+
+        /**
+         * Оператор инкремента
+         */
+        void operator++()
+        {
+        }
+
+        /**
+         * Оператор декремента
+         */
+        void operator--()
+        {
+        }
+
+        /**
+         * Получение данных из итератора
+         * @return Ссылка на хранимое значение
+         */
+        T &getData()
+        {
+        }
+
+        /**
+         * Оператор разыменования
+         * @return Ссылка на хранимое значение
+         */
+        T &operator*()
+        {
+        }
+
+        /**
+         * Получение листа по итератору
+         * @return Указатель на текущий лист
+         */
+        leaf *getLeaf()
+        {
+        }
+
+        /**
+         * Сеттер текущего листа
+         * @param p Новый текущий лист
+         */
+        void setLeaf(leaf *p)
+        {
+        }
+
+        /**
+         * Сеттер итератора до начала списка
+         * @param p Первый лист списка, перед которым выставляем итератор
+         */
+        void setLeafPreBegin(leaf *p)
+        {
+        }
+
+        /**
+         * Сеттер итератора за концом списка
+         * @param p Последний лист списка, после которого выставляем итератор
+         */
+        void setLeafPostEnd(leaf *p)
+        {
+        }
+
+        /**
+         * Проверка валидности итератора. Итератор считается валидным, если он держит указатель на лист
+         * @return Признак валидности итератора
+         */
+        bool isValid()
+        {
+        }
+
+      private:
+        /**
+         * Голова списка, если мы находимся перед началом
+         */
+        leaf *m_pBegin;
+
+        /**
+         * Текущий лист
+         */
+        leaf *m_pCurrent;
+
+        /**
+         * Хвост списка, если мы находимся за концом
+         */
+        leaf *m_pEnd;
+    };
+
+  public:
+    /**
+     * Стандартный конструктор
+     */
+    CDualLinkedList()
+    {
+    }
+
+    /**
+     * Виртуальный деструктор, предусмотрено наследование
+     */
+    virtual ~CDualLinkedList()
+    {
+    }
+
+    /**
+     * Добавить элемент в конец списка
+     * @param data Новый элемент, добавляется копированием
+     */
+    void pushBack(T &data)
+    {
+    }
+
+    /**
+     * Удалить элемент с конца списка
+     */
+    T popBack()
+    {
+    }
+
+    /**
+     * Добавить элемент в начало списка
+     * @param data Новый элемент, добавляется копированием
+     */
+    void pushFront(T &data)
+    {
+    }
+
+    /**
+     * Удалить элемент из начала списка
+     */
+    T popFront()
+    {
+    }
+
+    /**
+     * Удалить элемент по итератору. После удаления итератор указывает на элемент перед данным
+     * @param it Итератор списка
+     */
+    void erase(CIterator &it)
+    {
+    }
+
+    /**
+     * Удалить элемент по итератору. После удаления итератор указывает на элемент после данного
+     * @param it Итератор списка
+     */
+    void eraseAndNext(CIterator &it)
+    {
+    }
+
+    /**
+     * Рассчитать длину списка
+     * @return Длина списка
+     */
+    int getSize()
+    {
+    }
+
+    /**
+     * Очистить список, список остается валидным
+     */
+    void clear()
+    {
+    }
+
+    /**
+     * Получить итератор на первый элемент списка
+     * @return Итератор на первый элемент списка
+     */
+    CIterator begin()
+    {
+    }
+
+    /**
+     * Получить итератор на последний элемент списка
+     * @return Итератор на последний элемент списка
+     */
+    CIterator end()
+    {
+    }
+
+  private:
+    /**
+     * Голова и хвост списка
+     */
+    leaf *m_pBegin, *m_pEnd;
+};
+
 } // namespace lab618
 
-#endif //#ifndef TEMPLATES_LIST_2024_02_12
+#endif // #ifndef TEMPLATES_LIST_2024_02_12
 ```
