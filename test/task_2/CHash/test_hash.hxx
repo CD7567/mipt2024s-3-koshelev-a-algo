@@ -1,4 +1,7 @@
-#include "doctest/doctest.h"
+#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_HASH_HXX
+#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_HASH_HXX
+
+#include <doctest/doctest.h>
 
 #include "../../common_definitions.hxx"
 #include "hash-lib/hash.h"
@@ -215,3 +218,5 @@ TEST_SUITE("Task2_TestHashMap")
         }
     }
 }
+
+#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_HASH_HXX

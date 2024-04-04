@@ -1,20 +1,21 @@
-#include <doctest/doctest.h>
+#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_MM_MANUAL_HXX
+#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_MM_MANUAL_HXX
 
 #include <array>
+#include <doctest/doctest.h>
 
 #include "../../common_definitions.hxx"
-#include "memory-lib/mm.h"
 
-TEST_SUITE("TestMemoryManagerAuto")
+TEST_SUITE("TestMemoryManagerManual")
 {
     TEST_CASE("TestConstructAndTeardownEmpty")
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2, true);
+        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
     }
 
     TEST_CASE("TestAddNewObject")
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2, true);
+        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
         std::array<TestStruct *, TEST_SIZE> ptr_array;
 
         for (auto &it : ptr_array)
@@ -28,18 +29,23 @@ TEST_SUITE("TestMemoryManagerAuto")
             REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
             REQUIRE_NOTHROW(it->string_ = "I am new string");
         }
+
+        for (auto &it : ptr_array)
+        {
+            REQUIRE(mm.deleteObject(it));
+        }
     }
 
     TEST_CASE("TestDeleteNullptrFromEmpty")
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2, true);
+        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
 
         REQUIRE_FALSE(mm.deleteObject(nullptr));
     }
 
     TEST_CASE("TestDeleteNonExistentFromEmpty")
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2, true);
+        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
         TestStruct *nonExistent = new TestStruct();
 
         REQUIRE_FALSE(mm.deleteObject(nonExistent));
@@ -49,7 +55,7 @@ TEST_SUITE("TestMemoryManagerAuto")
 
     TEST_CASE("TestDeleteNullptrNonEmpty")
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2, true);
+        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
         std::array<TestStruct *, TEST_SIZE> ptr_array;
 
         for (auto &it : ptr_array)
@@ -58,11 +64,16 @@ TEST_SUITE("TestMemoryManagerAuto")
         }
 
         REQUIRE_FALSE(mm.deleteObject(nullptr));
+
+        for (auto &it : ptr_array)
+        {
+            REQUIRE(mm.deleteObject(it));
+        }
     }
 
     TEST_CASE("TestDeleteNonExistentNonEmpty")
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2, true);
+        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
         std::array<TestStruct *, TEST_SIZE> ptr_array;
         TestStruct *nonExistent = new TestStruct();
 
@@ -73,12 +84,17 @@ TEST_SUITE("TestMemoryManagerAuto")
 
         REQUIRE_FALSE(mm.deleteObject(nonExistent));
 
+        for (auto &it : ptr_array)
+        {
+            REQUIRE(mm.deleteObject(it));
+        }
+
         delete nonExistent;
     }
 
     TEST_CASE("TestValidityAfterDelete")
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2, true);
+        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
         std::array<TestStruct *, TEST_SIZE> ptr_array;
 
         for (auto &it : ptr_array)
@@ -101,11 +117,16 @@ TEST_SUITE("TestMemoryManagerAuto")
             REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
             REQUIRE_NOTHROW(it->string_ = "I am new string");
         }
+
+        for (auto &it : ptr_array)
+        {
+            REQUIRE(mm.deleteObject(it));
+        }
     }
 
     TEST_CASE("TestValidityAfterDeleteMixed")
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2, true);
+        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
         std::array<TestStruct *, TEST_SIZE> first_ptr_array;
         std::array<TestStruct *, TEST_SIZE> second_ptr_array;
 
@@ -132,11 +153,17 @@ TEST_SUITE("TestMemoryManagerAuto")
             REQUIRE_NOTHROW(first_ptr_array[i]->string_ = "I am new string");
             REQUIRE_NOTHROW(second_ptr_array[i]->string_ = "I am new string");
         }
+
+        for (size_t i = 0; i < TEST_SIZE; ++i)
+        {
+            REQUIRE(mm.deleteObject(first_ptr_array[i]));
+            REQUIRE(mm.deleteObject(second_ptr_array[i]));
+        }
     }
 
     TEST_CASE("TestValidityAfterClearEmpty")
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2, true);
+        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
         std::array<TestStruct *, TEST_SIZE> ptr_array;
 
         REQUIRE_NOTHROW(mm.clear());
@@ -150,17 +177,35 @@ TEST_SUITE("TestMemoryManagerAuto")
         {
             REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
             REQUIRE_NOTHROW(it->string_ = "I am new string");
+        }
+
+        for (auto &it : ptr_array)
+        {
+            REQUIRE(mm.deleteObject(it));
         }
     }
 
     TEST_CASE("TestValidityAfterClearNonEmpty")
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2, true);
+        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
         std::array<TestStruct *, TEST_SIZE> ptr_array;
 
         for (auto &it : ptr_array)
         {
             it = mm.newObject();
+        }
+
+        REQUIRE_THROWS_AS(mm.clear(), lab618::CMemoryManager<TestStruct>::CException);
+
+        for (auto &it : ptr_array)
+        {
+            REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
+            REQUIRE_NOTHROW(it->string_ = "I am new string");
+        }
+
+        for (auto &it : ptr_array)
+        {
+            REQUIRE(mm.deleteObject(it));
         }
 
         REQUIRE_NOTHROW(mm.clear());
@@ -175,11 +220,16 @@ TEST_SUITE("TestMemoryManagerAuto")
             REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
             REQUIRE_NOTHROW(it->string_ = "I am new string");
         }
+
+        for (auto &it : ptr_array)
+        {
+            REQUIRE(mm.deleteObject(it));
+        }
     }
 
     TEST_CASE("TestValidityAfterClearPartiallyEmpty")
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2, true);
+        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
         std::array<TestStruct *, TEST_SIZE> first_ptr_array;
         std::array<TestStruct *, TEST_SIZE> second_ptr_array;
 
@@ -190,6 +240,19 @@ TEST_SUITE("TestMemoryManagerAuto")
         }
 
         for (auto &it : second_ptr_array)
+        {
+            REQUIRE(mm.deleteObject(it));
+        }
+
+        REQUIRE_THROWS_AS(mm.clear(), lab618::CMemoryManager<TestStruct>::CException);
+
+        for (auto &it : first_ptr_array)
+        {
+            REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
+            REQUIRE_NOTHROW(it->string_ = "I am new string");
+        }
+
+        for (auto &it : first_ptr_array)
         {
             REQUIRE(mm.deleteObject(it));
         }
@@ -206,5 +269,12 @@ TEST_SUITE("TestMemoryManagerAuto")
             REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
             REQUIRE_NOTHROW(it->string_ = "I am new string");
         }
+
+        for (auto &it : first_ptr_array)
+        {
+            REQUIRE(mm.deleteObject(it));
+        }
     }
 }
+
+#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_MM_MANUAL_HXX

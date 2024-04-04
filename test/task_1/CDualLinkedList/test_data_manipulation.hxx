@@ -1,4 +1,7 @@
-#include "doctest/doctest.h"
+#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_DATA_MANIPULATION_HXX
+#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_DATA_MANIPULATION_HXX
+
+#include <doctest/doctest.h>
 
 #include "../../common_definitions.hxx"
 #include "list-lib/list.h"
@@ -184,3 +187,5 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         REQUIRE_EQ(list.getSize(), 2 * TEST_SIZE);
     }
 }
+
+#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_DATA_MANIPULATION_HXX

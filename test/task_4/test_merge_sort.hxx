@@ -1,4 +1,7 @@
-#include "doctest/doctest.h"
+#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_MERGE_SORT_HXX
+#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_MERGE_SORT_HXX
+
+#include <doctest/doctest.h>
 
 #include "../common_definitions.hxx"
 #include "sort-lib/sort.h"
@@ -77,3 +80,5 @@ TEST_SUITE("TestMergeSort")
         }
     }
 }
+
+#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_MERGE_SORT_HXX

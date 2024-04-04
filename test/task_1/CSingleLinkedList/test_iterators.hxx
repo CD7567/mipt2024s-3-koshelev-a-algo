@@ -1,4 +1,7 @@
-#include "doctest/doctest.h"
+#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_ITERATORS_HXX
+#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_ITERATORS_HXX
+
+#include <doctest/doctest.h>
 
 #include "../../common_definitions.hxx"
 #include "list-lib/list.h"
@@ -221,3 +224,5 @@ TEST_SUITE("Task1_CSingleLinkedList_TestIterators")
         REQUIRE_EQ(list.getSize(), 2 * TEST_SIZE);
     }
 }
+
+#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_ITERATORS_HXX
