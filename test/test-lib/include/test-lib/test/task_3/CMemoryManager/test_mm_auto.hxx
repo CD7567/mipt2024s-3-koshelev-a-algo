@@ -4,8 +4,8 @@
 #include <array>
 #include <doctest/doctest.h>
 
-#include "../../common_definitions.hxx"
 #include "memory-lib/mm.h"
+#include "test-lib/common.hxx"
 
 TEST_SUITE("TestMemoryManagerAuto")
 {

@@ -3,8 +3,8 @@
 
 #include <doctest/doctest.h>
 
-#include "../common_definitions.hxx"
 #include "sort-lib/sort.h"
+#include "test-lib/common.hxx"
 
 TEST_SUITE("TestHeapSort")
 {

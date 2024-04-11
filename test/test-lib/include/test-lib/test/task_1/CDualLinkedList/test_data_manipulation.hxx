@@ -3,8 +3,8 @@
 
 #include <doctest/doctest.h>
 
-#include "../../common_definitions.hxx"
 #include "list-lib/list.h"
+#include "test-lib/common.hxx"
 
 TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
 {

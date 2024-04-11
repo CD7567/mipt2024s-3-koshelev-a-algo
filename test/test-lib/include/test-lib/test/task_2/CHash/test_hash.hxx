@@ -3,8 +3,8 @@
 
 #include <doctest/doctest.h>
 
-#include "../../common_definitions.hxx"
 #include "hash-lib/hash.h"
+#include "test-lib/common.hxx"
 
 TEST_SUITE("Task2_TestHashMap")
 {
