@@ -6,6 +6,7 @@
 
 #include "memory-lib/mm.h"
 #include "test-lib/common.h"
+#include "test-lib/data/test_struct.h"
 
 TEST_SUITE("TestMemoryManagerAuto")
 {

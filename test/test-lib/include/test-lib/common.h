@@ -6,78 +6,10 @@
 #include <random>
 #include <string>
 
+#include "test-lib/data/test_struct.h"
+
 #define TEST_SIZE 10
 #define TEST_STRING_SIZE 20
-
-/**
- * Компаратор для size_t, из-за беззнаковости не обойтись разностью
- * @param lhs Левый операнд
- * @param rhs Правый операнд
- * @return Признак сравнения
- */
-inline int compareSizeT(size_t lhs, size_t rhs)
-{
-    if (lhs <= rhs)
-    {
-        if (rhs <= lhs)
-            return 0;
-        else
-            return -1;
-    }
-    else
-        return 1;
-}
-
-/**
- * Тестовая структура данных
- */
-struct TestStruct
-{
-    size_t number_;
-    std::string string_;
-
-    /**
-     * Стандартный конструктор
-     * @param num Число в структуре
-     * @param str Строка в структуре
-     */
-    explicit TestStruct(size_t num = 1000L, std::string &&str = "I am string") : number_(num), string_(str)
-    {
-    }
-
-    /**
-     * Оператор сравнения
-     * @param lhs Левый операнд
-     * @param rhs Правый операнд
-     * @return Признак сравнения
-     */
-    friend bool operator==(const TestStruct &lhs, const TestStruct &rhs)
-    {
-        return Compare(&lhs, &rhs) == 0;
-    }
-
-    /**
-     * Компаратор, приоритетно сравнение чисел структуры
-     * @param lhs Левый операнд
-     * @param rhs Правый операнд
-     * @return
-     */
-    static int Compare(const TestStruct *lhs, const TestStruct *rhs)
-    {
-        return (rhs->number_ == lhs->number_) ? lhs->string_.compare(rhs->string_)
-                                              : compareSizeT(lhs->number_, rhs->number_);
-    }
-
-    /**
-     * Хеш-функция для структуры
-     * @param it Хешируемая структура
-     * @return Хеш
-     */
-    static unsigned int Hash(const TestStruct *it)
-    {
-        return it->number_ + std::hash<std::string>()(it->string_);
-    }
-};
 
 /**
  * Генератор случайного size_t

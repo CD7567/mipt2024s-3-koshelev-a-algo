@@ -16,6 +16,12 @@ file(
         ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
 )
 
+file(
+        GLOB_RECURSE
+        TEST_LIB_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+)
+
 ###############################################################################
 ## target definitions #########################################################
 ###############################################################################
@@ -25,6 +31,7 @@ find_package(doctest REQUIRED)
 add_library(
         test-lib
         ${TEST_LIB_HEADERS}
+        ${TEST_LIB_SOURCES}
 )
 
 target_include_directories(

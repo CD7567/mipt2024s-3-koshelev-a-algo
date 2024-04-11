@@ -5,6 +5,7 @@
 
 #include "hash-lib/hash.h"
 #include "test-lib/common.h"
+#include "test-lib/data/test_struct.h"
 
 TEST_SUITE("Task2_TestHashMap")
 {

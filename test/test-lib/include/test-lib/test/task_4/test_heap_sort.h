@@ -5,6 +5,7 @@
 
 #include "sort-lib/sort.h"
 #include "test-lib/common.h"
+#include "test-lib/data/test_struct.h"
 
 TEST_SUITE("TestHeapSort")
 {

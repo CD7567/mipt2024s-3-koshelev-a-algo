@@ -5,6 +5,7 @@
 
 #include "list-lib/list.h"
 #include "test-lib/common.h"
+#include "test-lib/data/test_struct.h"
 
 TEST_SUITE("Task1_CDualLinkedList_TestIterators")
 {
