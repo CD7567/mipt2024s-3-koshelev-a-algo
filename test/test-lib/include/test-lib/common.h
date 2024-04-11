@@ -6,6 +6,7 @@
 #include <random>
 #include <string>
 
+#include "test-lib/data/generators/inline_generators.h"
 #include "test-lib/data/test_struct.h"
 
 #define TEST_SIZE 10
@@ -61,44 +62,7 @@ template <size_t size> std::array<TestStruct, size> genRandomNumData()
 
     for (auto &it : array)
     {
-        it.number_ = getRandomReal();
-    }
-
-    return array;
-}
-
-template <typename T, size_t Size = TEST_SIZE> std::array<T, Size> genTestDataRandom();
-
-/**
- * Генератор набора тестовых данных size_t
- * @tparam Size Размер набора
- * @return Массив данных
- */
-template <size_t Size = TEST_SIZE> std::array<size_t, Size> genTestDataRandom()
-{
-    std::array<size_t, TEST_SIZE> array;
-
-    for (size_t i = 0; i < TEST_SIZE; ++i)
-    {
-        array[i] = getRandomReal();
-    }
-
-    return array;
-}
-
-/**
- * Генератор набора тестовых данных TestStruct
- * @tparam Size Размер набора
- * @return Массив данных
- */
-template <size_t Size = TEST_SIZE> std::array<TestStruct, Size> genTestDataRandom()
-{
-    std::array<TestStruct, TEST_SIZE> array;
-
-    for (auto &it : array)
-    {
-        it.number_ = getRandomReal();
-        it.string_ = genRandomString(TEST_STRING_SIZE);
+        it.number_ = genRandomReal();
     }
 
     return array;
@@ -115,18 +79,11 @@ template <size_t size> std::array<TestStruct, size> genFullRandomData(size_t str
 
     for (auto &it : array)
     {
-        it.number_ = getRandomReal();
+        it.number_ = genRandomReal();
         it.string_ = genRandomString(str_size);
     }
 
     return array;
 }
-
-template<size_t Size = TEST_SIZE>
-class RandomDataGenerator {
-    static std::array<TestStruct, Size> gen() {
-
-    }
-};
 
 #endif // MIPT2024_S_KOSHELEV_A_ALGO_COMMON_H
