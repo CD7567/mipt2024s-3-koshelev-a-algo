@@ -4,14 +4,8 @@
 
 file(
         GLOB_RECURSE
-        TEST_RUNNER_HEADERS
-        ${CMAKE_CURRENT_SOURCE_DIR}/*.hxx
-)
-
-file(
-        GLOB_RECURSE
         TEST_RUNNER_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/*.cxx
+        ${CMAKE_CURRENT_SOURCE_DIR}/runner/*.cxx
 )
 
 add_executable(
@@ -29,10 +23,7 @@ find_package(doctest REQUIRED)
 target_link_libraries(
         test-runner PRIVATE
         doctest::doctest
-        list-lib
-        hash-lib
-        memory-lib
-        sort-lib
+        test-lib
 )
 
 add_subdirectory(test-lib)
