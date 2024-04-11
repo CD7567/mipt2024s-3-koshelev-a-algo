@@ -1,5 +1,5 @@
-#ifndef MIPT2024_S_KOSHELEV_A_ALGO_COMMON_HXX
-#define MIPT2024_S_KOSHELEV_A_ALGO_COMMON_HXX
+#ifndef MIPT2024_S_KOSHELEV_A_ALGO_COMMON_H
+#define MIPT2024_S_KOSHELEV_A_ALGO_COMMON_H
 
 #include <array>
 #include <cstddef>
@@ -232,4 +232,4 @@ class RandomDataGenerator {
     }
 };
 
-#endif // MIPT2024_S_KOSHELEV_A_ALGO_COMMON_HXX
+#endif // MIPT2024_S_KOSHELEV_A_ALGO_COMMON_H

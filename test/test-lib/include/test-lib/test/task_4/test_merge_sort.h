@@ -1,10 +1,10 @@
-#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_MERGE_SORT_HXX
-#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_MERGE_SORT_HXX
+#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_MERGE_SORT_H
+#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_MERGE_SORT_H
 
 #include <doctest/doctest.h>
 
 #include "sort-lib/sort.h"
-#include "test-lib/common.hxx"
+#include "test-lib/common.h"
 
 TEST_SUITE("TestMergeSort")
 {
@@ -81,4 +81,4 @@ TEST_SUITE("TestMergeSort")
     }
 }
 
-#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_MERGE_SORT_HXX
+#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_MERGE_SORT_H

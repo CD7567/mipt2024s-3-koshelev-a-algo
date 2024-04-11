@@ -1,10 +1,10 @@
-#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_DATA_MANIPULATION_HXX
-#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_DATA_MANIPULATION_HXX
+#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_DATA_MANIPULATION_H
+#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_DATA_MANIPULATION_H
 
 #include <doctest/doctest.h>
 
 #include "list-lib/list.h"
-#include "test-lib/common.hxx"
+#include "test-lib/common.h"
 
 TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
 {
@@ -188,4 +188,4 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
     }
 }
 
-#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_DATA_MANIPULATION_HXX
+#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_DATA_MANIPULATION_H

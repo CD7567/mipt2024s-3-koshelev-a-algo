@@ -13,12 +13,14 @@ project(test-lib LANGUAGES CXX)
 file(
         GLOB_RECURSE
         TEST_LIB_HEADERS
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/*.hxx
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
 )
 
 ###############################################################################
 ## target definitions #########################################################
 ###############################################################################
+
+find_package(doctest REQUIRED)
 
 add_library(
         test-lib
@@ -31,7 +33,7 @@ target_include_directories(
 )
 
 target_link_libraries(
-        test-lib PRIVATE
+        test-lib PUBLIC
         doctest::doctest
         list-lib
         hash-lib

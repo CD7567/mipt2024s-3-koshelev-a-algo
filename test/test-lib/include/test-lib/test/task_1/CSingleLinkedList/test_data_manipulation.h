@@ -1,10 +1,10 @@
-#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_DATA_MANIPULATION_HXX
-#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_DATA_MANIPULATION_HXX
+#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_DATA_MANIPULATION_H
+#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_DATA_MANIPULATION_H
 
 #include <doctest/doctest.h>
 
 #include "list-lib/list.h"
-#include "test-lib/common.hxx"
+#include "test-lib/common.h"
 
 TEST_SUITE("Task1_CSingleLinkedList_TestDataManipulation")
 {
@@ -143,4 +143,4 @@ TEST_SUITE("Task1_CSingleLinkedList_TestDataManipulation")
     }
 }
 
-#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_DATA_MANIPULATION_HXX
+#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_DATA_MANIPULATION_H

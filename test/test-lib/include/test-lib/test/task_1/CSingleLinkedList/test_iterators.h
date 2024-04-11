@@ -1,10 +1,10 @@
-#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_ITERATORS_HXX
-#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_ITERATORS_HXX
+#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_ITERATORS_H
+#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_ITERATORS_H
 
 #include <doctest/doctest.h>
 
 #include "list-lib/list.h"
-#include "test-lib/common.hxx"
+#include "test-lib/common.h"
 
 TEST_SUITE("Task1_CSingleLinkedList_TestIterators")
 {
@@ -225,4 +225,4 @@ TEST_SUITE("Task1_CSingleLinkedList_TestIterators")
     }
 }
 
-#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_ITERATORS_HXX
+#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_SINGLE_ITERATORS_H
