@@ -12,41 +12,6 @@
 #define TEST_STRING_SIZE 20
 
 /**
- * Генератор случайного size_t
- * @param lborder Левая граница
- * @param rborder Правая граница
- * @return Случайный size_t
- */
-inline size_t getRandomReal(size_t lborder = 0, size_t rborder = SIZE_MAX)
-{
-    static std::random_device random_device;
-    static std::mt19937 generator(random_device());
-    static std::uniform_int_distribution<size_t> distribution(lborder, rborder);
-
-    return distribution(generator);
-}
-
-/**
- * Генератор случайной строки строчной латиницей
- * @param size Длина строки
- * @return Случайная строка
- */
-inline std::string genRandomString(size_t size)
-{
-    static std::random_device random_device;
-    static std::mt19937 generator(random_device());
-    static std::uniform_int_distribution<char> distribution(97, 122);
-    std::string result;
-
-    for (size_t i = 0; i < size; ++i)
-    {
-        result += distribution(generator);
-    }
-
-    return result;
-}
-
-/**
  * Генератор отсортированного набора TestStruct
  * @tparam size Размер массива
  * @return Массив элементов
