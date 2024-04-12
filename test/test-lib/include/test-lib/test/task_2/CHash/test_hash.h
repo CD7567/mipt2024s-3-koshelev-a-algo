@@ -9,15 +9,15 @@
 
 TEST_SUITE("Task2_TestHashMap")
 {
-    TEST_CASE("TestConstructAndTeardownEmpty")
+    TEST_CASE_TEMPLATE("TestConstructAndTeardownEmpty", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
     }
 
-    TEST_CASE("TestAddNew")
+    TEST_CASE_TEMPLATE("TestAddNew", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -25,10 +25,10 @@ TEST_SUITE("Task2_TestHashMap")
         }
     }
 
-    TEST_CASE("TestAddDuplicates")
+    TEST_CASE_TEMPLATE("TestAddDuplicates", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -41,10 +41,10 @@ TEST_SUITE("Task2_TestHashMap")
         }
     }
 
-    TEST_CASE("TestFindEmpty")
+    TEST_CASE_TEMPLATE("TestFindEmpty", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -52,10 +52,10 @@ TEST_SUITE("Task2_TestHashMap")
         }
     }
 
-    TEST_CASE("TestFindExisting")
+    TEST_CASE_TEMPLATE("TestFindExisting", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -68,11 +68,11 @@ TEST_SUITE("Task2_TestHashMap")
         }
     }
 
-    TEST_CASE("TestFindNonExistent")
+    TEST_CASE_TEMPLATE("TestFindNonExistent", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
-        auto data = RandomGenerator<TestStruct>().generate();
-        TestStruct non_existent = TestStruct{TEST_SIZE, "I am string"};
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
+        auto data = RandomGenerator<T>().generate();
+        T non_existent = T{TEST_SIZE, "I am string"};
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -85,10 +85,10 @@ TEST_SUITE("Task2_TestHashMap")
         }
     }
 
-    TEST_CASE("TestUpdateNew")
+    TEST_CASE_TEMPLATE("TestUpdateNew", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -101,10 +101,10 @@ TEST_SUITE("Task2_TestHashMap")
         }
     }
 
-    TEST_CASE("TestUpdateDuplicates")
+    TEST_CASE_TEMPLATE("TestUpdateDuplicates", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -122,10 +122,10 @@ TEST_SUITE("Task2_TestHashMap")
         }
     }
 
-    TEST_CASE("TestRemoveEmpty")
+    TEST_CASE_TEMPLATE("TestRemoveEmpty", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -133,10 +133,10 @@ TEST_SUITE("Task2_TestHashMap")
         }
     }
 
-    TEST_CASE("TestRemoveNonEmpty")
+    TEST_CASE_TEMPLATE("TestRemoveNonEmpty", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -154,16 +154,16 @@ TEST_SUITE("Task2_TestHashMap")
         }
     }
 
-    TEST_CASE("TestClearEmpty")
+    TEST_CASE_TEMPLATE("TestClearEmpty", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
         hash_table.clear();
     }
 
-    TEST_CASE("TestClearNonEmpty")
+    TEST_CASE_TEMPLATE("TestClearNonEmpty", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -178,10 +178,10 @@ TEST_SUITE("Task2_TestHashMap")
         }
     }
 
-    TEST_CASE("TestValidityAfterClearEmpty")
+    TEST_CASE_TEMPLATE("TestValidityAfterClearEmpty", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
+        auto data = RandomGenerator<T>().generate();
 
         hash_table.clear();
 
@@ -196,10 +196,10 @@ TEST_SUITE("Task2_TestHashMap")
         }
     }
 
-    TEST_CASE("TestValidityAfterClearNonEmpty")
+    TEST_CASE_TEMPLATE("TestValidityAfterClearNonEmpty", T, TEST_HASH_TYPES)
     {
-        lab618::CHash<TestStruct, TestStruct::Hash, TestStruct::Compare> hash_table(TEST_SIZE / 2);
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CHash<T, T::Hash, T::Compare> hash_table(TEST_SIZE / 2);
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {

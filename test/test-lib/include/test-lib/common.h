@@ -14,6 +14,7 @@
 #define TEST_STRING_SIZE 20
 
 #define TEST_LINKED_LIST_TYPES size_t, TestStruct
+#define TEST_HASH_TYPES TestStruct, TestStructInverted
 
 /**
  * Генератор отсортированного набора TestStruct
