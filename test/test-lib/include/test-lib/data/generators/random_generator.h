@@ -63,4 +63,25 @@ template <size_t Size> class RandomGenerator<TestStruct, Size>
     }
 };
 
+/**
+ * Специализация для типа TestStructInverted
+ * @tparam Size Размер набора
+ */
+template <size_t Size> class RandomGenerator<TestStructInverted, Size>
+{
+  public:
+    std::array<TestStructInverted, Size> generate()
+    {
+        std::array<TestStructInverted, Size> array;
+
+        for (auto &it : array)
+        {
+            it.number_ = genRandomReal();
+            it.string_ = genRandomString(TEST_STRING_SIZE);
+        }
+
+        return array;
+    }
+};
+
 #endif // MIPT2024_S_KOSHELEV_A_ALGO_RANDOM_GENERATOR_H

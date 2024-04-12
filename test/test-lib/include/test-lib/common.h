@@ -8,6 +8,7 @@
 
 #include "test-lib/data/generators/inline_generators.h"
 #include "test-lib/data/test_struct.h"
+#include "test-lib/data/test_struct_inverted.h"
 
 #define TEST_SIZE 10
 #define TEST_STRING_SIZE 20
