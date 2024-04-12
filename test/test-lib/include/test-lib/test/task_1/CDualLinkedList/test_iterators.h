@@ -1,25 +1,25 @@
 #ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_ITERATORS_H
 #define MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_ITERATORS_H
 
+#include <cstddef>
 #include <doctest/doctest.h>
 
 #include "list-lib/list.h"
 #include "test-lib/common.h"
-#include "test-lib/data/test_struct.h"
 
 TEST_SUITE("Task1_CDualLinkedList_TestIterators")
 {
-    TEST_CASE("TestIsValidForward")
+    TEST_CASE_TEMPLATE("TestIsValidForward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.begin();
+        auto iter = list.begin();
 
         for (size_t i = 0; i < TEST_SIZE; ++i, ++iter)
         {
@@ -29,17 +29,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         REQUIRE_FALSE(iter.isValid());
     }
 
-    TEST_CASE("TestIsValidBackward")
+    TEST_CASE_TEMPLATE("TestIsValidBackward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.end();
+        auto iter = list.end();
 
         for (size_t i = 0; i < TEST_SIZE; ++i, --iter)
         {
@@ -49,17 +49,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         REQUIRE_FALSE(iter.isValid());
     }
 
-    TEST_CASE("TestDataCorrectnessGetDataForward")
+    TEST_CASE_TEMPLATE("TestDataCorrectnessGetDataForward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.begin();
+        auto iter = list.begin();
 
         for (size_t i = 0; i < TEST_SIZE; ++i, ++iter)
         {
@@ -67,17 +67,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         }
     }
 
-    TEST_CASE("TestDataCorrectnessGetDataBackward")
+    TEST_CASE_TEMPLATE("TestDataCorrectnessGetDataBackward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.end();
+        auto iter = list.end();
 
         for (size_t i = 0; i < TEST_SIZE; ++i, --iter)
         {
@@ -85,17 +85,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         }
     }
 
-    TEST_CASE("TestDataCorrectnessAsteriskForward")
+    TEST_CASE_TEMPLATE("TestDataCorrectnessAsteriskForward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.begin();
+        auto iter = list.begin();
 
         for (size_t i = 0; i < TEST_SIZE; ++i, ++iter)
         {
@@ -103,17 +103,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         }
     }
 
-    TEST_CASE("TestDataCorrectnessAsteriskBackward")
+    TEST_CASE_TEMPLATE("TestDataCorrectnessAsteriskBackward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.end();
+        auto iter = list.end();
 
         for (size_t i = 0; i < TEST_SIZE; ++i, --iter)
         {
@@ -121,17 +121,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         }
     }
 
-    TEST_CASE("TestDataCorrectnessGetLeafForward")
+    TEST_CASE_TEMPLATE("TestDataCorrectnessGetLeafForward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.begin();
+        auto iter = list.begin();
 
         for (size_t i = 0; i < TEST_SIZE; ++i, ++iter)
         {
@@ -139,17 +139,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         }
     }
 
-    TEST_CASE("TestDataCorrectnessGetLeafBackward")
+    TEST_CASE_TEMPLATE("TestDataCorrectnessGetLeafBackward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.end();
+        auto iter = list.end();
 
         for (size_t i = 0; i < TEST_SIZE; ++i, --iter)
         {
@@ -157,17 +157,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         }
     }
 
-    TEST_CASE("TestEraseFromBeginForward")
+    TEST_CASE_TEMPLATE("TestEraseFromBeginForward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.begin();
+        auto iter = list.begin();
 
         list.erase(iter);
 
@@ -180,17 +180,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         REQUIRE_FALSE(iter.isValid());
     }
 
-    TEST_CASE("TestEraseFromBeginBackward")
+    TEST_CASE_TEMPLATE("TestEraseFromBeginBackward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.end();
+        auto iter = list.end();
 
         for (size_t i = 1; i < TEST_SIZE; ++i, --iter)
         {
@@ -207,17 +207,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         REQUIRE(iter.isValid());
     }
 
-    TEST_CASE("TestEraseFromMiddleForward")
+    TEST_CASE_TEMPLATE("TestEraseFromMiddleForward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.begin();
+        auto iter = list.begin();
 
         for (size_t i = 1; i < TEST_SIZE / 2; ++i, ++iter)
         {
@@ -234,17 +234,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         REQUIRE(iter.isValid());
     }
 
-    TEST_CASE("TestEraseFromMiddleBackward")
+    TEST_CASE_TEMPLATE("TestEraseFromMiddleBackward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.end();
+        auto iter = list.end();
 
         for (size_t i = 1; i < TEST_SIZE / 2; ++i, --iter)
         {
@@ -261,17 +261,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         REQUIRE(iter.isValid());
     }
 
-    TEST_CASE("TestEraseFromEndForward")
+    TEST_CASE_TEMPLATE("TestEraseFromEndForward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.begin();
+        auto iter = list.begin();
 
         for (size_t i = 1; i < TEST_SIZE; ++i, ++iter)
         {
@@ -288,17 +288,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         REQUIRE(iter.isValid());
     }
 
-    TEST_CASE("TestEraseFromEndBackward")
+    TEST_CASE_TEMPLATE("TestEraseFromEndBackward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.end();
+        auto iter = list.end();
 
         list.eraseAndNext(iter);
 
@@ -311,17 +311,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         REQUIRE_FALSE(iter.isValid());
     }
 
-    TEST_CASE("TestEraseAllBeginForward")
+    TEST_CASE_TEMPLATE("TestEraseAllBeginForward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.begin();
+        auto iter = list.begin();
 
         for (size_t i = 0; i < TEST_SIZE; ++i, list.erase(iter), ++iter)
         {
@@ -347,17 +347,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         REQUIRE_EQ(list.getSize(), 2 * TEST_SIZE);
     }
 
-    TEST_CASE("TestEraseAllEndForward")
+    TEST_CASE_TEMPLATE("TestEraseAllEndForward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.begin();
+        auto iter = list.begin();
 
         for (size_t i = 1; i < TEST_SIZE; ++i, ++iter)
         {
@@ -387,17 +387,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         REQUIRE_EQ(list.getSize(), 2 * TEST_SIZE);
     }
 
-    TEST_CASE("TestEraseAllBeginBackward")
+    TEST_CASE_TEMPLATE("TestEraseAllBeginBackward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.end();
+        auto iter = list.end();
 
         for (size_t i = 1; i < TEST_SIZE; ++i, --iter)
         {
@@ -427,17 +427,17 @@ TEST_SUITE("Task1_CDualLinkedList_TestIterators")
         REQUIRE_EQ(list.getSize(), 2 * TEST_SIZE);
     }
 
-    TEST_CASE("TestEraseAllEndBackward")
+    TEST_CASE_TEMPLATE("TestEraseAllEndBackward", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
             list.pushBack(it);
         }
 
-        lab618::CDualLinkedList<TestStruct>::CIterator iter = list.end();
+        auto iter = list.end();
 
         for (size_t i = TEST_SIZE; i > 0; --i, list.eraseAndNext(iter), --iter)
         {

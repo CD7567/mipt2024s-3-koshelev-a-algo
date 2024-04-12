@@ -1,19 +1,19 @@
 #ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_DATA_MANIPULATION_H
 #define MIPT2024_S_KOSHELEV_A_ALGO_TEST_DUAL_DATA_MANIPULATION_H
 
+#include <cstddef>
 #include <doctest/doctest.h>
 
 #include "list-lib/list.h"
 #include "test-lib/common.h"
 #include "test-lib/data/generators/random_generator.h"
-#include "test-lib/data/test_struct.h"
 
 TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
 {
-    TEST_CASE("TestPushBackSize")
+    TEST_CASE_TEMPLATE("TestPushBackSize", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -22,10 +22,10 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         }
     }
 
-    TEST_CASE("TestPushFrontSize")
+    TEST_CASE_TEMPLATE("TestPushFrontSize", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -34,10 +34,10 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         }
     }
 
-    TEST_CASE("TestPushBackPopFront")
+    TEST_CASE_TEMPLATE("TestPushBackPopFront", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
@@ -51,10 +51,10 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         }
     }
 
-    TEST_CASE("TestPushFrontPopFront")
+    TEST_CASE_TEMPLATE("TestPushFrontPopFront", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
@@ -68,10 +68,10 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         }
     }
 
-    TEST_CASE("TestPushBackPopBack")
+    TEST_CASE_TEMPLATE("TestPushBackPopBack", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
@@ -85,10 +85,10 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         }
     }
 
-    TEST_CASE("TestPushFrontPopBack")
+    TEST_CASE_TEMPLATE("TestPushFrontPopBack", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : data)
         {
@@ -102,10 +102,10 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         }
     }
 
-    TEST_CASE("TestMixedPushMixedPop")
+    TEST_CASE_TEMPLATE("TestMixedPushMixedPop", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct, 2 * TEST_SIZE>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T, 2 * TEST_SIZE>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -121,18 +121,18 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         }
     }
 
-    TEST_CASE("TestClearEmpty")
+    TEST_CASE_TEMPLATE("TestClearEmpty", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
+        lab618::CDualLinkedList<T> list;
 
         REQUIRE_NOTHROW(list.clear());
         REQUIRE_EQ(list.getSize(), 0L);
     }
 
-    TEST_CASE("TestClear")
+    TEST_CASE_TEMPLATE("TestClear", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         REQUIRE_EQ(list.getSize(), 0L);
         REQUIRE_NOTHROW(list.clear());
@@ -149,10 +149,10 @@ TEST_SUITE("Task1_CDualLinkedList_TestDataManipulation")
         REQUIRE_EQ(list.getSize(), 0L);
     }
 
-    TEST_CASE("TestValidityAfterClear")
+    TEST_CASE_TEMPLATE("TestValidityAfterClear", T, TEST_LINKED_LIST_TYPES)
     {
-        lab618::CDualLinkedList<TestStruct> list;
-        auto data = RandomGenerator<TestStruct>().generate();
+        lab618::CDualLinkedList<T> list;
+        auto data = RandomGenerator<T>().generate();
 
         REQUIRE_EQ(list.getSize(), 0L);
         REQUIRE_NOTHROW(list.clear());

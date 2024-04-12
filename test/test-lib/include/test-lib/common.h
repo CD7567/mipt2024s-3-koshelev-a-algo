@@ -12,6 +12,8 @@
 #define TEST_SIZE 10
 #define TEST_STRING_SIZE 20
 
+#define TEST_LINKED_LIST_TYPES size_t, TestStruct
+
 /**
  * Генератор отсортированного набора TestStruct
  * @tparam size Размер массива
