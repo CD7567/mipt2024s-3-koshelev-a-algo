@@ -12,62 +12,58 @@ TEST_SUITE("Task1_CSingleLinkedList_TestDataManipulation")
     TEST_CASE("TestPushBackSize")
     {
         lab618::CSingleLinkedList<TestStruct> list;
-        TestStruct str{};
+        auto data = RandomGenerator<TestStruct>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             REQUIRE_EQ(list.getSize(), i);
-            list.pushBack(str);
+            list.pushBack(data[i]);
         }
     }
 
     TEST_CASE("TestPushFrontSize")
     {
         lab618::CSingleLinkedList<TestStruct> list;
-        TestStruct str{};
+        auto data = RandomGenerator<TestStruct>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             REQUIRE_EQ(list.getSize(), i);
-            list.pushFront(str);
+            list.pushFront(data[i]);
         }
     }
 
     TEST_CASE("TestPushBackPop")
     {
         lab618::CSingleLinkedList<TestStruct> list;
+        auto data = RandomGenerator<TestStruct>().generate();
 
-        for (size_t i = 0; i < TEST_SIZE; ++i)
+        for (auto &it : data)
         {
-            TestStruct str{i};
-            list.pushBack(str);
+            list.pushBack(it);
         }
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             REQUIRE_EQ(list.getSize(), TEST_SIZE - i);
-
-            TestStruct str = list.popFront();
-            REQUIRE_EQ(str.number_, i);
+            REQUIRE_EQ(list.popFront(), data[i]);
         }
     }
 
     TEST_CASE("TestPushFrontPop")
     {
         lab618::CSingleLinkedList<TestStruct> list;
+        auto data = RandomGenerator<TestStruct>().generate();
 
-        for (size_t i = 0; i < TEST_SIZE; ++i)
+        for (auto &it : data)
         {
-            TestStruct str{i};
-            list.pushFront(str);
+            list.pushFront(it);
         }
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             REQUIRE_EQ(list.getSize(), TEST_SIZE - i);
-
-            TestStruct str = list.popFront();
-            REQUIRE_EQ(str.number_, TEST_SIZE - i - 1);
+            REQUIRE_EQ(list.popFront(), data[TEST_SIZE - i - 1]);
         }
     }
 
@@ -82,21 +78,16 @@ TEST_SUITE("Task1_CSingleLinkedList_TestDataManipulation")
     TEST_CASE("TestClear")
     {
         lab618::CSingleLinkedList<TestStruct> list;
+        auto data = RandomGenerator<TestStruct>().generate();
 
         REQUIRE_EQ(list.getSize(), 0L);
         REQUIRE_NOTHROW(list.clear());
         REQUIRE_EQ(list.getSize(), 0L);
 
-        for (size_t i = 0; i < TEST_SIZE; ++i)
+        for (auto &it : data)
         {
-            TestStruct str{i};
-            list.pushBack(str);
-        }
-
-        for (size_t i = 0; i < TEST_SIZE; ++i)
-        {
-            TestStruct str{i};
-            list.pushFront(str);
+            list.pushFront(it);
+            list.pushBack(it);
         }
 
         REQUIRE_EQ(list.getSize(), 2 * TEST_SIZE);
@@ -107,37 +98,26 @@ TEST_SUITE("Task1_CSingleLinkedList_TestDataManipulation")
     TEST_CASE("TestValidityAfterClear")
     {
         lab618::CSingleLinkedList<TestStruct> list;
+        auto data = RandomGenerator<TestStruct>().generate();
 
         REQUIRE_EQ(list.getSize(), 0L);
         REQUIRE_NOTHROW(list.clear());
         REQUIRE_EQ(list.getSize(), 0L);
 
-        for (size_t i = 0; i < TEST_SIZE; ++i)
+        for (auto &it : data)
         {
-            TestStruct str{i};
-            list.pushBack(str);
-        }
-
-        for (size_t i = 0; i < TEST_SIZE; ++i)
-        {
-            TestStruct str{i};
-            list.pushFront(str);
+            list.pushFront(it);
+            list.pushBack(it);
         }
 
         REQUIRE_EQ(list.getSize(), 2 * TEST_SIZE);
         REQUIRE_NOTHROW(list.clear());
         REQUIRE_EQ(list.getSize(), 0L);
 
-        for (size_t i = 0; i < TEST_SIZE; ++i)
+        for (auto &it : data)
         {
-            TestStruct str{i};
-            list.pushBack(str);
-        }
-
-        for (size_t i = 0; i < TEST_SIZE; ++i)
-        {
-            TestStruct str{i};
-            list.pushFront(str);
+            list.pushFront(it);
+            list.pushBack(it);
         }
 
         REQUIRE_EQ(list.getSize(), 2 * TEST_SIZE);
