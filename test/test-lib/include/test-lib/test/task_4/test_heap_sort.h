@@ -1,7 +1,11 @@
-#include "doctest/doctest.h"
+#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_HEAP_SORT_H
+#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_HEAP_SORT_H
 
-#include "../common_definitions.hxx"
+#include <doctest/doctest.h>
+
 #include "sort-lib/sort.h"
+#include "test-lib/common.h"
+#include "test-lib/data/test_struct.h"
 
 TEST_SUITE("TestHeapSort")
 {
@@ -77,3 +81,5 @@ TEST_SUITE("TestHeapSort")
         }
     }
 }
+
+#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_HEAP_SORT_H
