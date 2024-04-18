@@ -44,7 +44,8 @@ template <class T> class CMemoryManager
          * @param blk_size Размер хранимого блока
          * @param next_blk Указатель на следующий блок
          */
-        block(int blk_size, block *next_blk = nullptr) : pData(new T[blk_size]), pNext(next_blk)
+        block(int blk_size, block *next_blk = nullptr)
+            : pData(reinterpret_cast<T *>(::operator new(blk_size * sizeof(T)))), pNext(next_blk)
         {
             for (int i = 1; i < blk_size; ++i)
             {
@@ -127,10 +128,9 @@ template <class T> class CMemoryManager
 
         int firstFreeIndex = blk_it->firstFreeIndex;
         blk_it->firstFreeIndex = *reinterpret_cast<int *>(blk_it->pData + firstFreeIndex);
-        blk_it->pData[firstFreeIndex] = T();
         ++blk_it->usedCount;
 
-        return blk_it->pData + firstFreeIndex;
+        return new (blk_it->pData + firstFreeIndex) T();
     }
 
     /**
@@ -186,7 +186,6 @@ template <class T> class CMemoryManager
 
             blk_it = blk_it->pNext;
             deleteBlock(to_delete);
-            delete to_delete;
         }
 
         m_pBlocks = m_pCurrentBlk = nullptr;
@@ -225,7 +224,8 @@ template <class T> class CMemoryManager
      */
     inline void deleteBlock(block *blk)
     {
-        delete[] blk->pData;
+        ::operator delete(blk->pData);
+        delete blk;
     }
 
     /**
