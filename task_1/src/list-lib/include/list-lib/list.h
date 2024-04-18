@@ -549,7 +549,9 @@ template <class T> class CDualLinkedList
     /**
      * Стандартный конструктор
      */
-    CDualLinkedList() = default;
+    CDualLinkedList() : m_pBegin(nullptr), m_pEnd(nullptr)
+    {
+    }
 
     /**
      * Виртуальный деструктор, предусмотрено наследование
