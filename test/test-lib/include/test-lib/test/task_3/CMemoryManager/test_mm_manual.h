@@ -6,19 +6,19 @@
 
 #include "memory-lib/mm.h"
 #include "test-lib/common.h"
-#include "test-lib/data/test_struct.h"
 
 TEST_SUITE("TestMemoryManagerManual")
 {
-    TEST_CASE("TestConstructAndTeardownEmpty")
+    TEST_CASE_TEMPLATE("TestConstructAndTeardownEmpty", T, TEST_MEMORY_MANAGER_TYPES)
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
+        lab618::CMemoryManager<T> mm(TEST_SIZE / 2);
     }
 
-    TEST_CASE("TestAddNewObject")
+    TEST_CASE_TEMPLATE("TestAddNewObject", T, TEST_MEMORY_MANAGER_TYPES)
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
-        std::array<TestStruct *, TEST_SIZE> ptr_array;
+        lab618::CMemoryManager<T> mm(TEST_SIZE / 2);
+        std::array<T *, TEST_SIZE> ptr_array;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : ptr_array)
         {
@@ -26,10 +26,9 @@ TEST_SUITE("TestMemoryManagerManual")
             REQUIRE_NE(it, nullptr);
         }
 
-        for (auto &it : ptr_array)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
-            REQUIRE_NOTHROW(it->string_ = "I am new string");
+            REQUIRE_NOTHROW(*ptr_array[i] = data[i]);
         }
 
         for (auto &it : ptr_array)
@@ -38,27 +37,25 @@ TEST_SUITE("TestMemoryManagerManual")
         }
     }
 
-    TEST_CASE("TestDeleteNullptrFromEmpty")
+    TEST_CASE_TEMPLATE("TestDeleteNullptrFromEmpty", T, TEST_MEMORY_MANAGER_TYPES)
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
+        lab618::CMemoryManager<T> mm(TEST_SIZE / 2);
 
         REQUIRE_FALSE(mm.deleteObject(nullptr));
     }
 
-    TEST_CASE("TestDeleteNonExistentFromEmpty")
+    TEST_CASE_TEMPLATE("TestDeleteNonExistentFromEmpty", T, TEST_MEMORY_MANAGER_TYPES)
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
-        TestStruct *nonExistent = new TestStruct();
+        lab618::CMemoryManager<T> mm(TEST_SIZE / 2);
+        auto data = RandomGenerator<T, 1>().generate();
 
-        REQUIRE_FALSE(mm.deleteObject(nonExistent));
-
-        delete nonExistent;
+        REQUIRE_FALSE(mm.deleteObject(data.data()));
     }
 
-    TEST_CASE("TestDeleteNullptrNonEmpty")
+    TEST_CASE_TEMPLATE("TestDeleteNullptrNonEmpty", T, TEST_MEMORY_MANAGER_TYPES)
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
-        std::array<TestStruct *, TEST_SIZE> ptr_array;
+        lab618::CMemoryManager<T> mm(TEST_SIZE / 2);
+        std::array<T *, TEST_SIZE> ptr_array;
 
         for (auto &it : ptr_array)
         {
@@ -73,52 +70,18 @@ TEST_SUITE("TestMemoryManagerManual")
         }
     }
 
-    TEST_CASE("TestDeleteNonExistentNonEmpty")
+    TEST_CASE_TEMPLATE("TestDeleteNonExistentNonEmpty", T, TEST_MEMORY_MANAGER_TYPES)
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
-        std::array<TestStruct *, TEST_SIZE> ptr_array;
-        TestStruct *nonExistent = new TestStruct();
+        lab618::CMemoryManager<T> mm(TEST_SIZE / 2);
+        std::array<T *, TEST_SIZE> ptr_array;
+        auto nonExistent = RandomGenerator<T, 1>().generate();
 
         for (auto &it : ptr_array)
         {
             it = mm.newObject();
         }
 
-        REQUIRE_FALSE(mm.deleteObject(nonExistent));
-
-        for (auto &it : ptr_array)
-        {
-            REQUIRE(mm.deleteObject(it));
-        }
-
-        delete nonExistent;
-    }
-
-    TEST_CASE("TestValidityAfterDelete")
-    {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
-        std::array<TestStruct *, TEST_SIZE> ptr_array;
-
-        for (auto &it : ptr_array)
-        {
-            it = mm.newObject();
-        }
-
-        for (auto &it : ptr_array)
-        {
-            REQUIRE(mm.deleteObject(it));
-        }
-
-        for (auto &it : ptr_array)
-        {
-            it = mm.newObject();
-        }
-
-        for (auto &it : ptr_array)
-        {
-            REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
-            REQUIRE_NOTHROW(it->string_ = "I am new string");
-        }
+        REQUIRE_FALSE(mm.deleteObject(nonExistent.data()));
 
         for (auto &it : ptr_array)
         {
@@ -126,11 +89,44 @@ TEST_SUITE("TestMemoryManagerManual")
         }
     }
 
-    TEST_CASE("TestValidityAfterDeleteMixed")
+    TEST_CASE_TEMPLATE("TestValidityAfterDelete", T, TEST_MEMORY_MANAGER_TYPES)
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
-        std::array<TestStruct *, TEST_SIZE> first_ptr_array;
-        std::array<TestStruct *, TEST_SIZE> second_ptr_array;
+        lab618::CMemoryManager<T> mm(TEST_SIZE / 2);
+        std::array<T *, TEST_SIZE> ptr_array;
+        auto data = RandomGenerator<T>().generate();
+
+        for (auto &it : ptr_array)
+        {
+            it = mm.newObject();
+        }
+
+        for (auto &it : ptr_array)
+        {
+            REQUIRE(mm.deleteObject(it));
+        }
+
+        for (auto &it : ptr_array)
+        {
+            it = mm.newObject();
+        }
+
+        for (size_t i = 0; i < TEST_SIZE; ++i)
+        {
+            REQUIRE_NOTHROW(*ptr_array[i] = data[i]);
+        }
+
+        for (auto &it : ptr_array)
+        {
+            REQUIRE(mm.deleteObject(it));
+        }
+    }
+
+    TEST_CASE_TEMPLATE("TestValidityAfterDeleteMixed", T, TEST_MEMORY_MANAGER_TYPES)
+    {
+        lab618::CMemoryManager<T> mm(TEST_SIZE / 2);
+        std::array<T *, TEST_SIZE> first_ptr_array;
+        std::array<T *, TEST_SIZE> second_ptr_array;
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -150,10 +146,8 @@ TEST_SUITE("TestMemoryManagerManual")
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_NOTHROW(first_ptr_array[i]->number_ = TEST_SIZE);
-            REQUIRE_NOTHROW(second_ptr_array[i]->number_ = TEST_SIZE);
-            REQUIRE_NOTHROW(first_ptr_array[i]->string_ = "I am new string");
-            REQUIRE_NOTHROW(second_ptr_array[i]->string_ = "I am new string");
+            REQUIRE_NOTHROW(*first_ptr_array[i] = data[i]);
+            REQUIRE_NOTHROW(*second_ptr_array[i] = data[i]);
         }
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
@@ -163,10 +157,11 @@ TEST_SUITE("TestMemoryManagerManual")
         }
     }
 
-    TEST_CASE("TestValidityAfterClearEmpty")
+    TEST_CASE_TEMPLATE("TestValidityAfterClearEmpty", T, TEST_MEMORY_MANAGER_TYPES)
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
-        std::array<TestStruct *, TEST_SIZE> ptr_array;
+        lab618::CMemoryManager<T> mm(TEST_SIZE / 2);
+        std::array<T *, TEST_SIZE> ptr_array;
+        auto data = RandomGenerator<T>().generate();
 
         REQUIRE_NOTHROW(mm.clear());
 
@@ -175,10 +170,9 @@ TEST_SUITE("TestMemoryManagerManual")
             it = mm.newObject();
         }
 
-        for (auto &it : ptr_array)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
-            REQUIRE_NOTHROW(it->string_ = "I am new string");
+            REQUIRE_NOTHROW(*ptr_array[i] = data[i]);
         }
 
         for (auto &it : ptr_array)
@@ -187,22 +181,22 @@ TEST_SUITE("TestMemoryManagerManual")
         }
     }
 
-    TEST_CASE("TestValidityAfterClearNonEmpty")
+    TEST_CASE_TEMPLATE("TestValidityAfterClearNonEmpty", T, TEST_MEMORY_MANAGER_TYPES)
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
-        std::array<TestStruct *, TEST_SIZE> ptr_array;
+        lab618::CMemoryManager<T> mm(TEST_SIZE / 2);
+        std::array<T *, TEST_SIZE> ptr_array;
+        auto data = RandomGenerator<T>().generate();
 
         for (auto &it : ptr_array)
         {
             it = mm.newObject();
         }
 
-        REQUIRE_THROWS_AS(mm.clear(), lab618::CMemoryManager<TestStruct>::CException);
+        REQUIRE_THROWS(mm.clear());
 
-        for (auto &it : ptr_array)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
-            REQUIRE_NOTHROW(it->string_ = "I am new string");
+            REQUIRE_NOTHROW(*ptr_array[i] = data[i]);
         }
 
         for (auto &it : ptr_array)
@@ -217,10 +211,9 @@ TEST_SUITE("TestMemoryManagerManual")
             it = mm.newObject();
         }
 
-        for (auto &it : ptr_array)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
-            REQUIRE_NOTHROW(it->string_ = "I am new string");
+            REQUIRE_NOTHROW(*ptr_array[i] = data[i]);
         }
 
         for (auto &it : ptr_array)
@@ -229,11 +222,12 @@ TEST_SUITE("TestMemoryManagerManual")
         }
     }
 
-    TEST_CASE("TestValidityAfterClearPartiallyEmpty")
+    TEST_CASE_TEMPLATE("TestValidityAfterClearPartiallyEmpty", T, TEST_MEMORY_MANAGER_TYPES)
     {
-        lab618::CMemoryManager<TestStruct> mm(TEST_SIZE / 2);
-        std::array<TestStruct *, TEST_SIZE> first_ptr_array;
-        std::array<TestStruct *, TEST_SIZE> second_ptr_array;
+        lab618::CMemoryManager<T> mm(TEST_SIZE / 2);
+        std::array<T *, TEST_SIZE> first_ptr_array;
+        std::array<T *, TEST_SIZE> second_ptr_array;
+        auto data = RandomGenerator<T>().generate();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
@@ -246,12 +240,11 @@ TEST_SUITE("TestMemoryManagerManual")
             REQUIRE(mm.deleteObject(it));
         }
 
-        REQUIRE_THROWS_AS(mm.clear(), lab618::CMemoryManager<TestStruct>::CException);
+        REQUIRE_THROWS(mm.clear());
 
-        for (auto &it : first_ptr_array)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
-            REQUIRE_NOTHROW(it->string_ = "I am new string");
+            REQUIRE_NOTHROW(*first_ptr_array[i] = data[i]);
         }
 
         for (auto &it : first_ptr_array)
@@ -266,10 +259,9 @@ TEST_SUITE("TestMemoryManagerManual")
             it = mm.newObject();
         }
 
-        for (auto &it : first_ptr_array)
+        for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            REQUIRE_NOTHROW(it->number_ = TEST_SIZE);
-            REQUIRE_NOTHROW(it->string_ = "I am new string");
+            REQUIRE_NOTHROW(*first_ptr_array[i] = data[i]);
         }
 
         for (auto &it : first_ptr_array)
