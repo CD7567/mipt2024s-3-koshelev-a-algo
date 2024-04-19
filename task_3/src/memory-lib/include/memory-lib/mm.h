@@ -44,15 +44,8 @@ template <class T> class CMemoryManager
          * @param blk_size Размер хранимого блока
          * @param next_blk Указатель на следующий блок
          */
-        block(int blk_size, block *next_blk = nullptr)
-            : pData(reinterpret_cast<T *>(::operator new(blk_size * sizeof(T)))), pNext(next_blk)
+        block(int blk_size) : pData(static_cast<T *>(operator new(blk_size * sizeof(T)))), pNext(nullptr)
         {
-            for (int i = 1; i < blk_size; ++i)
-            {
-                *reinterpret_cast<int *>(pData + i - 1) = i;
-            }
-
-            *reinterpret_cast<int *>(pData + blk_size - 1) = -1;
         }
     };
 
@@ -73,7 +66,7 @@ template <class T> class CMemoryManager
          * Стандартный конструктор
          * @param msg Сообщение об ошибке
          */
-        explicit CException(const char *msg = "Stub!") : message_(msg)
+        explicit CException(const char *msg = "") : message_(msg)
         {
         }
 
@@ -95,8 +88,8 @@ template <class T> class CMemoryManager
      *                                   на наличие неосвобожденных функцией deleteObject элементов
      */
     CMemoryManager(int default_block_size, bool isDeleteElementsOnDestruct = false)
-        : m_blkSize(default_block_size), m_isDeleteElementsOnDestruct(isDeleteElementsOnDestruct), m_pBlocks(nullptr),
-          m_pCurrentBlk(nullptr)
+        : m_blkSize(default_block_size), m_pBlocks(nullptr), m_pCurrentBlk(nullptr),
+          m_isDeleteElementsOnDestruct(isDeleteElementsOnDestruct)
     {
     }
 
@@ -114,23 +107,36 @@ template <class T> class CMemoryManager
      */
     T *newObject()
     {
-        block *blk_it = m_pBlocks;
-
-        while (blk_it != nullptr && blk_it->usedCount == m_blkSize)
+        if (m_pCurrentBlk == nullptr)
         {
-            blk_it = blk_it->pNext;
+            m_pBlocks = m_pCurrentBlk = newBlock();
+        }
+        else if (m_pCurrentBlk->usedCount == m_blkSize)
+        {
+            block *blk_it = m_pBlocks;
+
+            while (blk_it != nullptr && blk_it->usedCount == m_blkSize)
+            {
+                blk_it = blk_it->pNext;
+            }
+
+            if (blk_it == nullptr)
+            {
+                m_pCurrentBlk = newBlock();
+                m_pCurrentBlk->pNext = m_pBlocks;
+                m_pBlocks = m_pCurrentBlk;
+            }
+            else
+            {
+                m_pCurrentBlk = blk_it;
+            }
         }
 
-        if (blk_it == nullptr)
-        {
-            blk_it = newBlock();
-        }
+        int new_index = m_pCurrentBlk->firstFreeIndex;
+        m_pCurrentBlk->firstFreeIndex = *reinterpret_cast<int *>(m_pCurrentBlk->pData + new_index);
+        ++m_pCurrentBlk->usedCount;
 
-        int firstFreeIndex = blk_it->firstFreeIndex;
-        blk_it->firstFreeIndex = *reinterpret_cast<int *>(blk_it->pData + firstFreeIndex);
-        ++blk_it->usedCount;
-
-        return new (blk_it->pData + firstFreeIndex) T();
+        return new (m_pCurrentBlk->pData + new_index) T();
     }
 
     /**
@@ -140,23 +146,34 @@ template <class T> class CMemoryManager
      */
     bool deleteObject(T *elem)
     {
-        block *blk_it = m_pBlocks;
+        bool found = isInBlock(elem, m_pCurrentBlk);
 
-        while (blk_it != nullptr && !isInBlock(elem, blk_it))
+        if (!found)
         {
-            blk_it = blk_it->pNext;
+            for (block *blk_it = m_pBlocks; blk_it != nullptr; blk_it = blk_it->pNext)
+            {
+                if (blk_it == m_pCurrentBlk)
+                {
+                    continue;
+                }
+                else if (isInBlock(elem, blk_it))
+                {
+                    found = true;
+                    m_pCurrentBlk = blk_it;
+                    break;
+                }
+            }
         }
 
-        if (blk_it != nullptr)
+        if (found)
         {
             elem->~T();
-
-            *reinterpret_cast<int *>(elem) = blk_it->firstFreeIndex;
-            blk_it->firstFreeIndex = elem - blk_it->pData;
-            --blk_it->usedCount;
+            *reinterpret_cast<int *>(elem) = m_pCurrentBlk->firstFreeIndex;
+            m_pCurrentBlk->firstFreeIndex = elem - m_pCurrentBlk->pData;
+            --m_pCurrentBlk->usedCount;
         }
 
-        return blk_it != nullptr;
+        return found;
     }
 
     /**
@@ -164,23 +181,18 @@ template <class T> class CMemoryManager
      */
     void clear()
     {
-        block *blk_it = m_pBlocks;
-
         if (!m_isDeleteElementsOnDestruct)
         {
-            while (blk_it != nullptr)
+            for (block *blk_it = m_pBlocks; blk_it != nullptr; blk_it = blk_it->pNext)
             {
                 if (blk_it->usedCount > 0)
                 {
                     throw CException("Some elements were not deleted!");
                 }
-                blk_it = blk_it->pNext;
             }
         }
 
-        blk_it = m_pBlocks;
-
-        while (blk_it != nullptr)
+        for (block *blk_it = m_pBlocks; blk_it != nullptr;)
         {
             block *to_delete = blk_it;
 
@@ -197,34 +209,46 @@ template <class T> class CMemoryManager
      */
     block *newBlock()
     {
-        try
-        {
-            if (m_pBlocks == nullptr)
-            {
-                m_pBlocks = new block(m_blkSize);
-                m_pCurrentBlk = m_pBlocks;
-            }
-            else
-            {
-                m_pCurrentBlk->pNext = new block(m_blkSize);
-                m_pCurrentBlk = m_pCurrentBlk->pNext;
-            }
+        block *new_block = new block(m_blkSize);
 
-            return m_pCurrentBlk;
-        }
-        catch (std::bad_alloc &exception)
+        for (size_t i = 0; i < m_blkSize; ++i)
         {
-            throw CException("Not enough memory for new block!");
+            *reinterpret_cast<int *>(new_block->pData + i) = i + 1;
         }
+
+        return new_block;
     }
 
     /**
-     * Освободить память блока данных
+     * Удалить блок памяти
      * @param blk Освобождаемый блок
      */
     inline void deleteBlock(block *blk)
     {
-        ::operator delete(blk->pData);
+        int count = blk->usedCount;
+
+        for (int i = 0; i < m_blkSize && count > 0; ++i)
+        {
+            bool is_free = false;
+
+            for (int index = blk->firstFreeIndex; index != m_blkSize;
+                 index = *reinterpret_cast<int *>(blk->pData + index))
+            {
+                if (i == index)
+                {
+                    is_free = true;
+                    break;
+                }
+            }
+
+            if (!is_free)
+            {
+                (blk->pData + i)->~T();
+                --count;
+            }
+        }
+
+        operator delete(static_cast<void *>(blk->pData));
         delete blk;
     }
 
@@ -236,7 +260,7 @@ template <class T> class CMemoryManager
      */
     inline bool isInBlock(const T *elem, const block *blk)
     {
-        return blk->pData <= elem && elem < blk->pData + m_blkSize;
+        return blk != nullptr && blk->pData <= elem && elem < blk->pData + m_blkSize;
     }
 
     /**
