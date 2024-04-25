@@ -5,79 +5,96 @@
 
 #include "sort-lib/sort.h"
 #include "test-lib/common.h"
-#include "test-lib/data/test_struct.h"
 
 TEST_SUITE("TestMergeSort")
 {
-    TEST_CASE("TestCorrectnessOnSorted")
+    TEST_CASE_TEMPLATE("TestCorrectnessOnSortedAsc", T, TEST_SORT_TYPES)
     {
-        auto array = genSortedData<TEST_SIZE>();
-        auto ptrArray = std::array<TestStruct *, TEST_SIZE>();
+        auto array = SortedGenerator<T>().generate();
+        auto ptrArray = std::array<T *, TEST_SIZE>();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             ptrArray[i] = array.data() + i;
         }
 
-        templates::mergeSort(ptrArray.data(), TEST_SIZE, TestStruct::Compare);
+        templates::mergeSort(ptrArray.data(), TEST_SIZE, T::Compare);
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
-            REQUIRE_LE(TestStruct::Compare(ptrArray[i - 1], ptrArray[i]), 0);
+            REQUIRE_LE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
         }
     }
 
-    TEST_CASE("TestCorrectnessOnReverseWithRepetition")
+    TEST_CASE_TEMPLATE("TestCorrectnessOnSortedDesc", T, TEST_SORT_TYPES)
     {
-        auto array = genSortedDescData<TEST_SIZE>(TEST_SIZE / 5);
-        auto ptrArray = std::array<TestStruct *, TEST_SIZE>();
+        auto array = SortedGenerator<T>().generate();
+        auto ptrArray = std::array<T *, TEST_SIZE>();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
-            ptrArray[i] = array.data() + i;
+            ptrArray[i] = array.data() + TEST_SIZE - i - 1;
         }
 
-        templates::mergeSort(ptrArray.data(), TEST_SIZE, TestStruct::Compare);
+        templates::mergeSort(ptrArray.data(), TEST_SIZE, T::Compare);
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
-            REQUIRE_LE(TestStruct::Compare(ptrArray[i - 1], ptrArray[i]), 0);
+            REQUIRE_LE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
         }
     }
 
-    TEST_CASE("TestCorrectnessOnRandomNum")
+    TEST_CASE_TEMPLATE("TestCorrectnessOnRepetitiveAsc", T, TEST_SORT_TYPES)
     {
-        auto array = genRandomNumData<TEST_SIZE>();
-        auto ptrArray = std::array<TestStruct *, TEST_SIZE>();
+        auto array = RepetitiveGenerator<T>().generate();
+        auto ptrArray = std::array<T *, TEST_SIZE>();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             ptrArray[i] = array.data() + i;
         }
 
-        templates::mergeSort(ptrArray.data(), TEST_SIZE, TestStruct::Compare);
+        templates::mergeSort(ptrArray.data(), TEST_SIZE, T::Compare);
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
-            REQUIRE_LE(TestStruct::Compare(ptrArray[i - 1], ptrArray[i]), 0);
+            REQUIRE_LE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
         }
     }
 
-    TEST_CASE("TestCorrectnessOnFullyRandom")
+    TEST_CASE_TEMPLATE("TestCorrectnessOnRepetitiveDesc", T, TEST_SORT_TYPES)
     {
-        auto array = genFullRandomData<TEST_SIZE>();
-        auto ptrArray = std::array<TestStruct *, TEST_SIZE>();
+        auto array = RepetitiveGenerator<T>().generate();
+        auto ptrArray = std::array<T *, TEST_SIZE>();
+
+        for (size_t i = 0; i < TEST_SIZE; ++i)
+        {
+            ptrArray[i] = array.data() + TEST_SIZE - i - 1;
+        }
+
+        templates::mergeSort(ptrArray.data(), TEST_SIZE, T::Compare);
+
+        for (size_t i = 1; i < TEST_SIZE; ++i)
+        {
+            REQUIRE_LE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
+        }
+    }
+
+    TEST_CASE_TEMPLATE("TestCorrectnessOnRandom", T, TEST_SORT_TYPES)
+    {
+        auto array = RandomGenerator<T>().generate();
+        auto ptrArray = std::array<T *, TEST_SIZE>();
 
         for (size_t i = 0; i < TEST_SIZE; ++i)
         {
             ptrArray[i] = array.data() + i;
         }
 
-        templates::mergeSort(ptrArray.data(), TEST_SIZE, TestStruct::Compare);
+        templates::mergeSort(ptrArray.data(), TEST_SIZE, T::Compare);
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
-            REQUIRE_LE(TestStruct::Compare(ptrArray[i - 1], ptrArray[i]), 0);
+            REQUIRE_LE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
         }
     }
 }
