@@ -1,5 +1,5 @@
-#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_MERGE_SORT_H
-#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_MERGE_SORT_H
+#ifndef MIPT2024_S_KOSHELEV_A_ALGO_TEST_QUICK_SORT_H
+#define MIPT2024_S_KOSHELEV_A_ALGO_TEST_QUICK_SORT_H
 
 #include <doctest/doctest.h>
 
@@ -9,7 +9,7 @@
 #include "test-lib/data/generators/sorted_generator.h"
 #include "test-lib/data/generators/random_generator.h"
 
-TEST_SUITE("TestMergeSort")
+TEST_SUITE("TestQuickSort")
 {
     TEST_CASE_TEMPLATE("TestCorrectnessOnSortedAsc", T, TEST_SORT_TYPES)
     {
@@ -21,7 +21,7 @@ TEST_SUITE("TestMergeSort")
             ptrArray[i] = array.data() + i;
         }
 
-        templates::mergeSort(ptrArray.data(), TEST_SIZE, T::Compare);
+        templates::quickSort(ptrArray.data(), TEST_SIZE, T::Compare);
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
@@ -39,7 +39,7 @@ TEST_SUITE("TestMergeSort")
             ptrArray[i] = array.data() + TEST_SIZE - i - 1;
         }
 
-        templates::mergeSort(ptrArray.data(), TEST_SIZE, T::Compare);
+        templates::quickSort(ptrArray.data(), TEST_SIZE, T::Compare);
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
@@ -57,7 +57,7 @@ TEST_SUITE("TestMergeSort")
             ptrArray[i] = array.data() + i;
         }
 
-        templates::mergeSort(ptrArray.data(), TEST_SIZE, T::Compare);
+        templates::quickSort(ptrArray.data(), TEST_SIZE, T::Compare);
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
@@ -75,7 +75,7 @@ TEST_SUITE("TestMergeSort")
             ptrArray[i] = array.data() + TEST_SIZE - i - 1;
         }
 
-        templates::mergeSort(ptrArray.data(), TEST_SIZE, T::Compare);
+        templates::quickSort(ptrArray.data(), TEST_SIZE, T::Compare);
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
@@ -93,7 +93,7 @@ TEST_SUITE("TestMergeSort")
             ptrArray[i] = array.data() + i;
         }
 
-        templates::mergeSort(ptrArray.data(), TEST_SIZE, T::Compare);
+        templates::quickSort(ptrArray.data(), TEST_SIZE, T::Compare);
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
@@ -102,4 +102,4 @@ TEST_SUITE("TestMergeSort")
     }
 }
 
-#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_MERGE_SORT_H
+#endif // MIPT2024_S_KOSHELEV_A_ALGO_TEST_QUICK_SORT_H
