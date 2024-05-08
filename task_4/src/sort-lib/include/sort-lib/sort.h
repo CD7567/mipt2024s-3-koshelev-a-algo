@@ -25,6 +25,14 @@ void mergeSort(void **ppArray, int length, CompareSortType pCompareFunc);
 void heapSort(void **ppArray, int length, CompareSortType pCompareFunc);
 
 /**
+ * Элементарная функция быстрой сортировки
+ * @param ppArray Сортируемый массив
+ * @param length Длина массива
+ * @param pCompareFunc Компаратор
+ */
+void quickSort(void** ppArray, int length, CompareSortType pCompareFunc);
+
+/**
  * Типобезопасная функция сортировки слиянием
  * @param ppArray Сортируемый массив
  * @param length Длина массива
@@ -46,6 +54,17 @@ template <class T> void heapSort(T **ppArray, int length, int(pCompareFunc)(cons
     heapSort(reinterpret_cast<void **>(ppArray), length, (CompareSortType *)pCompareFunc);
 }
 
+/**
+ * Типобезопасная функция быстрой сортировки
+ * @param ppArray Сортируемый массив
+ * @param length Длина массива
+ * @param pCompareFunc Компаратор
+ */
+template <class T>
+void quickSort(T** ppArray, int length, int (pCompareFunc)(const T* pElem1, const T* pElem2))
+{
+    quickSort(reinterpret_cast<void**>(ppArray), length, (CompareSortType*)pCompareFunc);
+}
 } // namespace templates
 
 #endif // #define SORT_HEAD_H_2024_03_21
