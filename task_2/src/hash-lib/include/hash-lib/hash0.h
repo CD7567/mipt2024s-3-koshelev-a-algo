@@ -1,10 +1,8 @@
-#ifndef HASH_HEAD_H_2024_03_07
-#define HASH_HEAD_H_2024_03_07
+#ifndef HASH_HEAD_H_2024_02_23
+#define HASH_HEAD_H_2024_02_23
 
 #include <algorithm>
 #include <exception>
-
-#include "memory-lib/mm.h"
 
 namespace lab618
 {
@@ -108,9 +106,7 @@ class CHash
      * требуется.
      * @param hashTableSize Размер хеш-таблицы
      */
-    explicit CHash(int hashTableSize)
-        : m_tableSize(hashTableSize), m_pTable(new leaf *[hashTableSize]),
-          m_Memory(CMemoryManager<leaf>(hashTableSize, true))
+    explicit CHash(int hashTableSize) : m_tableSize(hashTableSize), m_pTable(new leaf *[hashTableSize])
     {
         std::fill(m_pTable, m_pTable + m_tableSize, nullptr);
     }
@@ -120,6 +116,19 @@ class CHash
      */
     virtual ~CHash()
     {
+        leaf **it_bucket = m_pTable;
+
+        for (int i = 0; i < m_tableSize; ++i)
+        {
+            for (leaf *it = *(it_bucket++); it != nullptr;)
+            {
+                leaf *to_delete = it;
+
+                it = it->pNext;
+                delete to_delete;
+            }
+        }
+
         delete[] m_pTable;
     }
 
@@ -204,7 +213,7 @@ class CHash
                 bucket_it->pNext = bucket_it->pNext->pNext;
             }
 
-            m_Memory.deleteObject(elem_it);
+            delete elem_it;
         }
 
         return elem_it != nullptr;
@@ -224,7 +233,7 @@ class CHash
                 leaf *to_delete = it;
 
                 it = it->pNext;
-                m_Memory.deleteObject(to_delete);
+                delete to_delete;
             }
 
             m_pTable[i] = nullptr;
@@ -267,9 +276,7 @@ class CHash
     {
         try
         {
-            leaf *new_leaf = m_Memory.newObject();
-            new_leaf->pData = pElement;
-            m_pTable[idx] = new_leaf;
+            m_pTable[idx] = new leaf(pElement, m_pTable[idx]);
         }
         catch (std::bad_alloc &exception)
         {
@@ -286,12 +293,8 @@ class CHash
      * Хеш-таблица
      */
     leaf **m_pTable;
-
-    /**
-     * Менеджер памяти, предназначен для хранение листов списков разрешения коллизий
-     */
-    CMemoryManager<leaf> m_Memory;
 };
+
 } // namespace lab618
 
-#endif // #define HASH_HEAD_H_2024_03_07
+#endif // #define HASH_HEAD_H_2024_02_23

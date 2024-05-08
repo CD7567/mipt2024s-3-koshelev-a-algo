@@ -25,6 +25,11 @@ add_library(
         ${HASH_LIB_HEADERS}
 )
 
+target_link_libraries(
+        hash-lib PUBLIC
+        memory-lib
+)
+
 target_include_directories(
         hash-lib PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include/
