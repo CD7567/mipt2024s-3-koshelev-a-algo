@@ -7,6 +7,7 @@
 #include "test-lib/common.h"
 #include "test-lib/data/generators/repetitive_generator.h"
 #include "test-lib/data/generators/sorted_generator.h"
+#include "test-lib/data/generators/random_generator.h"
 
 TEST_SUITE("TestHeapSort")
 {
