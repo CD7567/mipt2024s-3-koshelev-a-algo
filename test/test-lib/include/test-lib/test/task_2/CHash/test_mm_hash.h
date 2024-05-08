@@ -3,12 +3,12 @@
 
 #include <doctest/doctest.h>
 
-#include "hash-lib/hash0.h"
+#include "hash-lib/hash.h"
 #include "test-lib/common.h"
 #include "test-lib/data/generators/random_generator.h"
 #include "test-lib/data/test_struct.h"
 
-TEST_SUITE("Task2_TestHashMap")
+TEST_SUITE("Task2_TestMMHashMap")
 {
     TEST_CASE_TEMPLATE("TestConstructAndTeardownEmpty", T, TEST_HASH_TYPES)
     {

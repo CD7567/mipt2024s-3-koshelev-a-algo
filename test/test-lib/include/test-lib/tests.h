@@ -7,6 +7,7 @@
 #include "test-lib/test/task_1/CSingleLinkedList/test_iterators.h"
 
 #include "test-lib/test/task_2/CHash/test_hash.h"
+#include "test-lib/test/task_2/CHash/test_mm_hash.h"
 
 #include "test-lib/test/task_3/CMemoryManager/test_mm_auto.h"
 #include "test-lib/test/task_3/CMemoryManager/test_mm_manual.h"
