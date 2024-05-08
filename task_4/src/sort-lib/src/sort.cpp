@@ -51,35 +51,45 @@ void heapSort(void **ppArray, int length, CompareSortType pCompareFunc)
 }
 
 /**
- * Функция сортировки слиянием. Реализована in-place версия алгоритма, где merge происходит между разными кусками
- * исходного массива.
- * @param ppArray Сортируемый массив
- * @param length Длина массива
+ * Функция слияния частей массива с дополнительной памятью
+ * @param ppArrayBegin Начало сортируемой части
+ * @param ppArrayMid Середина сортируемой части
+ * @param ppArrayEnd Конец сортируемой части
  * @param pCompareFunc Компаратор
  */
-void mergeSort(void **ppArray, int length, CompareSortType pCompareFunc)
-{
-    if (length < 2)
-    {
-        return;
+void merge(void **ppArrayBegin, void** ppArrayMid, void** ppArrayEnd, CompareSortType pCompareFunc) {
+    void **l_iter = ppArrayBegin;
+    void **r_iter = ppArrayMid;
+
+    void** result = new void*[ppArrayEnd - ppArrayBegin];
+    void** result_iter = result;
+
+    while (l_iter < ppArrayMid && r_iter < ppArrayEnd) {
+        if (pCompareFunc(*l_iter, *r_iter) <= 0) {
+            *(result_iter++) = *(l_iter++);
+        } else {
+            *(result_iter++) = *(r_iter++);
+        }
     }
 
-    const int middle = length / 2;
+    while (l_iter < ppArrayMid) {
+        *(result_iter++) = *(l_iter++);
+    }
 
-    mergeSort(ppArray, middle, pCompareFunc);
-    mergeSort(ppArray + middle, length - middle, pCompareFunc);
+    while (r_iter < ppArrayEnd) {
+        *(result_iter++) = *(r_iter++);
+    }
 
-    void **ppMiddle = ppArray + middle;
-    void **ppEnd = ppArray + length;
-    for (void **it = ppMiddle; ppArray < it && it < ppEnd; ++ppArray)
+    std::copy(result, result + (ppArrayEnd - ppArrayBegin), ppArrayBegin);
+    delete[] result;
+}
+
+void mergeSort(void **ppArray, int length, CompareSortType pCompareFunc)
+{
+    for (int i = 1; i < length; i *= 2)
     {
-        if (pCompareFunc(*ppArray, *it) > 0)
-        {
-            for (void **tmp = it; tmp > ppArray; --tmp)
-            {
-                std::swap(*tmp, *(tmp - 1));
-            }
-            ++it;
+        for (int j = 0; j < length - i; j += 2 * i) {
+            merge(ppArray + j, ppArray + j + i, ppArray + std::min(j + 2 * i, length), pCompareFunc);
         }
     }
 }
