@@ -18,12 +18,12 @@ inline void heapify(void **ppArray, int length, int idx, CompareSortType pCompar
     const int rChild = lChild + 1;
     int largest = idx;
 
-    if (lChild < length && pCompareFunc(ppArray[lChild], ppArray[largest]) > 0)
+    if (lChild < length && pCompareFunc(ppArray[lChild], ppArray[largest]) < 0)
     {
         largest = lChild;
     }
 
-    if (rChild < length && pCompareFunc(ppArray[rChild], ppArray[largest]) > 0)
+    if (rChild < length && pCompareFunc(ppArray[rChild], ppArray[largest]) < 0)
     {
         largest = rChild;
     }
@@ -65,7 +65,7 @@ void merge(void **ppArrayBegin, void** ppArrayMid, void** ppArrayEnd, CompareSor
     void** result_iter = result;
 
     while (l_iter < ppArrayMid && r_iter < ppArrayEnd) {
-        if (pCompareFunc(*l_iter, *r_iter) <= 0) {
+        if (pCompareFunc(*l_iter, *r_iter) >= 0) {
             *(result_iter++) = *(l_iter++);
         } else {
             *(result_iter++) = *(r_iter++);
@@ -109,11 +109,11 @@ void **partition(void **ppArrayBegin, void **ppArrayEnd, CompareSortType pCompar
 
     while (l_iter <= r_iter)
     {
-        for (; pCompareFunc(*l_iter, *middle) < 0; ++l_iter)
+        for (; pCompareFunc(*l_iter, *middle) > 0; ++l_iter)
         {
         }
 
-        for (; pCompareFunc(*middle, *r_iter) < 0; --r_iter)
+        for (; pCompareFunc(*middle, *r_iter) > 0; --r_iter)
         {
         }
 
