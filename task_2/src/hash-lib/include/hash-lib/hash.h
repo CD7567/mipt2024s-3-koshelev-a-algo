@@ -108,9 +108,9 @@ class CHash
      * требуется.
      * @param hashTableSize Размер хеш-таблицы
      */
-    explicit CHash(int hashTableSize)
+    explicit CHash(int hashTableSize, int defaultBlockSize)
         : m_tableSize(hashTableSize), m_pTable(new leaf *[hashTableSize]),
-          m_Memory(CMemoryManager<leaf>(hashTableSize, true))
+          m_Memory(CMemoryManager<leaf>(defaultBlockSize, true))
     {
         std::fill(m_pTable, m_pTable + m_tableSize, nullptr);
     }
@@ -269,6 +269,7 @@ class CHash
         {
             leaf *new_leaf = m_Memory.newObject();
             new_leaf->pData = pElement;
+            new_leaf->pNext = m_pTable[idx];
             m_pTable[idx] = new_leaf;
         }
         catch (std::bad_alloc &exception)
