@@ -38,7 +38,7 @@ namespace lab618
  * @tparam Compare Компаратор
  */
 template <class T, unsigned int (*HashFunc)(const T *pElement), int (*Compare)(const T *pElement, const T *pElement2)>
-class CHash
+class CHash0
 {
   private:
     /**
@@ -106,7 +106,7 @@ class CHash
      * требуется.
      * @param hashTableSize Размер хеш-таблицы
      */
-    explicit CHash(int hashTableSize) : m_tableSize(hashTableSize), m_pTable(new leaf *[hashTableSize])
+    explicit CHash0(int hashTableSize) : m_tableSize(hashTableSize), m_pTable(new leaf *[hashTableSize])
     {
         std::fill(m_pTable, m_pTable + m_tableSize, nullptr);
     }
@@ -114,7 +114,7 @@ class CHash
     /**
      * Деструктор, освобождает все листья.
      */
-    virtual ~CHash()
+    virtual ~CHash0()
     {
         leaf **it_bucket = m_pTable;
 
