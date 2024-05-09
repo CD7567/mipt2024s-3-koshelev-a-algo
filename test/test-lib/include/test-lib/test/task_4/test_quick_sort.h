@@ -25,7 +25,7 @@ TEST_SUITE("TestQuickSort")
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
-            REQUIRE_LE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
+            REQUIRE_GE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
         }
     }
 
@@ -43,7 +43,7 @@ TEST_SUITE("TestQuickSort")
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
-            REQUIRE_LE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
+            REQUIRE_GE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
         }
     }
 
@@ -61,7 +61,7 @@ TEST_SUITE("TestQuickSort")
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
-            REQUIRE_LE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
+            REQUIRE_GE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
         }
     }
 
@@ -79,7 +79,7 @@ TEST_SUITE("TestQuickSort")
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
-            REQUIRE_LE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
+            REQUIRE_GE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
         }
     }
 
@@ -97,7 +97,7 @@ TEST_SUITE("TestQuickSort")
 
         for (size_t i = 1; i < TEST_SIZE; ++i)
         {
-            REQUIRE_LE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
+            REQUIRE_GE(T::Compare(ptrArray[i - 1], ptrArray[i]), 0);
         }
     }
 }
