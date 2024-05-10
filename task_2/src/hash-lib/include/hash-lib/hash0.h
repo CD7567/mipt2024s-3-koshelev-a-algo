@@ -192,31 +192,37 @@ class CHash0
      */
     bool remove(const T &element)
     {
-        unsigned int idx;
-        leaf *elem_it = findLeaf(&element, idx);
+        unsigned int idx = HashFunc(&element) % m_tableSize;
+        leaf *bucket_it = m_pTable[idx];
 
-        if (elem_it != nullptr)
+        if (bucket_it == nullptr)
         {
-            leaf *bucket_it = m_pTable[idx];
-
-            if (Compare(bucket_it->pData, &element) == 0)
-            {
-                m_pTable[idx] = bucket_it->pNext;
-            }
-            else
-            {
-                while (Compare(bucket_it->pNext->pData, &element) != 0)
-                {
-                    bucket_it = bucket_it->pNext;
-                }
-
-                bucket_it->pNext = bucket_it->pNext->pNext;
-            }
-
-            delete elem_it;
+            return false;
         }
 
-        return elem_it != nullptr;
+        if (Compare(&element, bucket_it->pData) == 0)
+        {
+            m_pTable[idx] = bucket_it->pNext;
+            delete bucket_it;
+
+            return true;
+        }
+
+        while (bucket_it->pNext != nullptr && Compare(&element, bucket_it->pNext->pData) != 0)
+        {
+            bucket_it = bucket_it->pNext;
+        }
+
+        leaf *to_delete = bucket_it->pNext;
+        if (to_delete != nullptr)
+        {
+            bucket_it->pNext = to_delete->pNext;
+            delete to_delete;
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
