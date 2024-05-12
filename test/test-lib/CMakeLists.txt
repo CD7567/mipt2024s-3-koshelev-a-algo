@@ -46,6 +46,7 @@ target_link_libraries(
         hash-lib
         memory-lib
         sort-lib
+        avl-lib
 )
 
 set_target_properties(test-lib PROPERTIES LINKER_LANGUAGE CXX)

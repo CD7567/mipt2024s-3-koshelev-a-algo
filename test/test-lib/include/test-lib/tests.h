@@ -15,4 +15,6 @@
 #include "test-lib/test/task_4/test_heap_sort.h"
 #include "test-lib/test/task_4/test_merge_sort.h"
 
+#include "test-lib/test/task_5/CAVLTree/test_avl.h"
+
 #endif // MIPT2024_S_KOSHELEV_A_ALGO_TESTS_H
