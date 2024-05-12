@@ -11,5 +11,6 @@
 #define TEST_HASH_TYPES TestStruct, TestStructInverted
 #define TEST_MEMORY_MANAGER_TYPES size_t, TestStruct, TestStructInverted
 #define TEST_SORT_TYPES TestStruct, TestStructInverted
+#define TEST_AVL_TYPES TestStruct, TestStructInverted
 
 #endif // MIPT2024_S_KOSHELEV_A_ALGO_COMMON_H

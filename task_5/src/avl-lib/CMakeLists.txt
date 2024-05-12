@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.5)
 ## project definition #########################################################
 ###############################################################################
 
-project(test-lib LANGUAGES CXX)
+project(avl-lib LANGUAGES CXX)
 
 ###############################################################################
 ## sources definitions ########################################################
@@ -12,41 +12,27 @@ project(test-lib LANGUAGES CXX)
 
 file(
         GLOB_RECURSE
-        TEST_LIB_HEADERS
+        AVL_LIB_HEADERS
         ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
-)
-
-file(
-        GLOB_RECURSE
-        TEST_LIB_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
 
 ###############################################################################
 ## target definitions #########################################################
 ###############################################################################
 
-find_package(doctest REQUIRED)
-
 add_library(
-        test-lib
-        ${TEST_LIB_HEADERS}
-        ${TEST_LIB_SOURCES}
-)
-
-target_include_directories(
-        test-lib PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include/
+        avl-lib
+        ${AVL_LIB_HEADERS}
 )
 
 target_link_libraries(
-        test-lib PUBLIC
-        doctest::doctest
-        list-lib
-        hash-lib
+        avl-lib PUBLIC
         memory-lib
-        sort-lib
-        avl-lib
 )
 
-set_target_properties(test-lib PROPERTIES LINKER_LANGUAGE CXX)
+target_include_directories(
+        avl-lib PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/
+)
+
+set_target_properties(avl-lib PROPERTIES LINKER_LANGUAGE CXX)
