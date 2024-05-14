@@ -466,7 +466,7 @@ template <class T, int (*Compare)(const T *pElement, const T *pElement2)> class 
             return {false, true, subtree};
         }
 
-        return {!result.doChangeHeight && subtree->balanceFactor != 0, result.isSuccess, subtree};
+        return {result.doChangeHeight && subtree->balanceFactor != 0, result.isSuccess, subtree};
     }
 
     /**
