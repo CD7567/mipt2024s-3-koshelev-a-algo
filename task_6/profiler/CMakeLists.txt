@@ -36,3 +36,13 @@ target_include_directories(
         profiler PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
+
+###############################################################################
+## dependencies ###############################################################
+###############################################################################
+
+target_link_libraries(
+        profiler PUBLIC
+        hash-lib
+        avl-lib
+)
