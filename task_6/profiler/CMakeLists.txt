@@ -1,0 +1,38 @@
+cmake_minimum_required(VERSION 3.5)
+
+###############################################################################
+## project definition #########################################################
+###############################################################################
+
+project(profiler LANGUAGES CXX)
+
+###############################################################################
+## sources definitions ########################################################
+###############################################################################
+
+file(
+        GLOB_RECURSE
+        PROFILER_HEADERS
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h
+)
+
+file(
+        GLOB_RECURSE
+        PROFILER_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+)
+
+###############################################################################
+## target definitions #########################################################
+###############################################################################
+
+add_executable(
+        profiler
+        ${PROFILER_HEADERS}
+        ${PROFILER_SOURCES}
+)
+
+target_include_directories(
+        profiler PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
