@@ -57,26 +57,33 @@ void heapSort(void **ppArray, int length, CompareSortType pCompareFunc)
  * @param ppArrayEnd Конец сортируемой части
  * @param pCompareFunc Компаратор
  */
-void merge(void **ppArrayBegin, void** ppArrayMid, void** ppArrayEnd, CompareSortType pCompareFunc) {
+void merge(void **ppArrayBegin, void **ppArrayMid, void **ppArrayEnd, CompareSortType pCompareFunc)
+{
     void **l_iter = ppArrayBegin;
     void **r_iter = ppArrayMid;
 
-    void** result = new void*[ppArrayEnd - ppArrayBegin];
-    void** result_iter = result;
+    void **result = new void *[ppArrayEnd - ppArrayBegin];
+    void **result_iter = result;
 
-    while (l_iter < ppArrayMid && r_iter < ppArrayEnd) {
-        if (pCompareFunc(*l_iter, *r_iter) >= 0) {
+    while (l_iter < ppArrayMid && r_iter < ppArrayEnd)
+    {
+        if (pCompareFunc(*l_iter, *r_iter) >= 0)
+        {
             *(result_iter++) = *(l_iter++);
-        } else {
+        }
+        else
+        {
             *(result_iter++) = *(r_iter++);
         }
     }
 
-    while (l_iter < ppArrayMid) {
+    while (l_iter < ppArrayMid)
+    {
         *(result_iter++) = *(l_iter++);
     }
 
-    while (r_iter < ppArrayEnd) {
+    while (r_iter < ppArrayEnd)
+    {
         *(result_iter++) = *(r_iter++);
     }
 
@@ -88,7 +95,8 @@ void mergeSort(void **ppArray, int length, CompareSortType pCompareFunc)
 {
     for (int i = 1; i < length; i *= 2)
     {
-        for (int j = 0; j < length - i; j += 2 * i) {
+        for (int j = 0; j < length - i; j += 2 * i)
+        {
             merge(ppArray + j, ppArray + j + i, ppArray + std::min(j + 2 * i, length), pCompareFunc);
         }
     }
@@ -97,28 +105,30 @@ void mergeSort(void **ppArray, int length, CompareSortType pCompareFunc)
 /**
  * Функция партиционирования быстрой сортировки
  * @param ppArrayBegin Начало сортируемого участка
- * @param ppArrayEnd Конец сортируемого участка (включительно)
+ * @param ppArrayEnd Конец сортируемого участка (не включительно)
  * @param pCompareFunc Компаратор
  * @return Середина сортируемого участка
  */
 void **partition(void **ppArrayBegin, void **ppArrayEnd, CompareSortType pCompareFunc)
 {
     void **l_iter = ppArrayBegin;
-    void **r_iter = ppArrayEnd;
-    void **middle = ppArrayBegin + (ppArrayEnd - ppArrayBegin) / 2;
+    void **r_iter = ppArrayEnd - 1;
+    void *pivot = *(ppArrayBegin + (r_iter - l_iter) / 2);
 
     while (l_iter <= r_iter)
     {
-        for (; pCompareFunc(*l_iter, *middle) > 0; ++l_iter)
+        for (; pCompareFunc(*l_iter, pivot) > 0; ++l_iter)
         {
         }
 
-        for (; pCompareFunc(*middle, *r_iter) > 0; --r_iter)
+        for (; pCompareFunc(*r_iter, pivot) < 0; --r_iter)
         {
         }
 
         if (l_iter >= r_iter)
+        {
             break;
+        }
 
         std::swap(*(l_iter++), *(r_iter--));
     }
@@ -129,22 +139,22 @@ void **partition(void **ppArrayBegin, void **ppArrayEnd, CompareSortType pCompar
 /**
  * Функция быстрой сортировки участка
  * @param ppArrayBegin Начало сортируемого участка
- * @param ppArrayEnd Конец сортируемого участка (включительно)
+ * @param ppArrayEnd Конец сортируемого участка (не включительно)
  * @param pCompareFunc Компаратор
  */
 void quickSortRange(void **ppArrayBegin, void **ppArrayEnd, CompareSortType pCompareFunc)
 {
-    if (ppArrayBegin < ppArrayEnd)
+    if (ppArrayBegin + 1 < ppArrayEnd)
     {
         void **ppArrayMiddle = partition(ppArrayBegin, ppArrayEnd, pCompareFunc);
-        quickSortRange(ppArrayEnd, ppArrayMiddle, pCompareFunc);
+        quickSortRange(ppArrayBegin, ppArrayMiddle + 1, pCompareFunc);
         quickSortRange(ppArrayMiddle + 1, ppArrayEnd, pCompareFunc);
     }
 }
 
 void quickSort(void **ppArray, int length, CompareSortType pCompareFunc)
 {
-    quickSortRange(ppArray, ppArray + length - 1, pCompareFunc);
+    quickSortRange(ppArray, ppArray + length, pCompareFunc);
 }
 
 } // namespace templates
