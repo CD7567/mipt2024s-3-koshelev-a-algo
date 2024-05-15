@@ -14,6 +14,7 @@
 
 #include "test-lib/test/task_4/test_heap_sort.h"
 #include "test-lib/test/task_4/test_merge_sort.h"
+#include "test-lib/test/task_4/test_quick_sort.h"
 
 #include "test-lib/test/task_5/CAVLTree/test_avl.h"
 
