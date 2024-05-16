@@ -45,4 +45,5 @@ target_link_libraries(
         profiler PUBLIC
         hash-lib
         avl-lib
+        test-lib
 )
