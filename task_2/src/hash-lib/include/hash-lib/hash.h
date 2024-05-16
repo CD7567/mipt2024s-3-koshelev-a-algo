@@ -221,20 +221,11 @@ class CHash
      */
     void clear()
     {
-        leaf **it_bucket = m_pTable;
+        m_Memory.clear();
+        delete[] m_pTable;
 
-        for (int i = 0; i < m_tableSize; ++i)
-        {
-            for (leaf *it = *(it_bucket++); it != nullptr;)
-            {
-                leaf *to_delete = it;
-
-                it = it->pNext;
-                m_Memory.deleteObject(to_delete);
-            }
-
-            m_pTable[i] = nullptr;
-        }
+        m_pTable = new leaf*[m_tableSize];
+        std::fill(m_pTable, m_pTable + m_tableSize, nullptr);
     }
 
   private:
