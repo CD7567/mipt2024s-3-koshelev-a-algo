@@ -26,7 +26,7 @@ inline void profileArray(DataStruct *array, DataStruct *doubled_array, std::ostr
 {
     size_t time;
 
-    for (int i = test_min_size; i < test_max_size; i += 50000)
+    for (int i = test_min_size; i < test_max_size; i += 90000)
     {
         DataStruct *new_array = new DataStruct[i];
         DataStruct **new_ppArray = new DataStruct *[i];
@@ -78,11 +78,11 @@ inline void profileArray(DataStruct *array, DataStruct *doubled_array, std::ostr
 inline void profileHash(DataStruct *array, DataStruct *doubled_array, std::ostream &out, int test_min_size,
                         int test_max_size)
 {
-    lab618::CHash<DataStruct, DataStruct::Hash, DataStruct::Compare> hashtable{test_max_size / 10, 1024};
+    lab618::CHash<DataStruct, DataStruct::Hash, DataStruct::Compare> hashtable{test_max_size, 1024};
 
     size_t time;
 
-    for (int i = test_min_size; i < test_max_size; i += 50000)
+    for (int i = test_min_size; i < test_max_size; i += 90000)
     {
         TIME(
             {
@@ -141,7 +141,7 @@ inline void profileAVL(DataStruct *array, DataStruct *doubled_array, std::ostrea
 
     size_t time;
 
-    for (int i = test_min_size; i < test_max_size; i += 50000)
+    for (int i = test_min_size; i < test_max_size; i += 90000)
     {
         TIME(
             {
